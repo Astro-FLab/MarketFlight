@@ -2,7 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CK.Monitoring.Hosting" Version="12.3.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MarketFlight.Data\MarketFlight.Data.csproj" />
+    <ProjectReference Include="..\MarketFlight.Model\MarketFlight.Model.csproj" />
+  </ItemGroup>
 
 
 </Project>
