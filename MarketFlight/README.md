@@ -1,6 +1,6 @@
 # MarketFlight
 
-## FLIGTHS
+## FLIGTHS
 
 ### marketflight/fligths
 
