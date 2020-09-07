@@ -16,7 +16,7 @@ create table MF.tAirport(
     [Name] nvarchar(255) not null unique
 );
 
-create table MF.tFlights(
+create table MF.tFlight(
     FlightID int not null identity(1,1) primary key,
     DepartureAirport int not null foreign key references MF.tAirport(AirportId),
     ArrivalAirport int not null foreign key references MF.tAirport(AirportId)

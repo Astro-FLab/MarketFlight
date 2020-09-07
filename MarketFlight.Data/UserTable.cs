@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MarketFlight.Data
 {
-    public class UserTable
+    public static class UserTable
     {
         public static Task<int> CreateUser( IDbConnection dbConnection, string firstName, string lastName )
             => dbConnection.ExecuteAsync(
