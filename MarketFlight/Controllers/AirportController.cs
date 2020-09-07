@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace MarketFlight.Controllers
 {
     [ApiController]
-    [Route( "airport" )]
+    [Route( "marketflight/airport" )]
     public class AirportController : ControllerBase
     {
         readonly IActivityMonitor _m;

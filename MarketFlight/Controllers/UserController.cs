@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace MarketFlight.Controllers
 {
     [ApiController]
-    [Route( "user" )]
+    [Route( "marketflight/user" )]
     public class UserController : ControllerBase
     {
         readonly IActivityMonitor _m;
