@@ -12,7 +12,7 @@ namespace MarketFlight.Data
     public static class AirportTable
     {
         public static Task<int> CreateAirport( IDbConnection dbConnection, string name )
-            => dbConnection.ExecuteAsync(
+            => dbConnection.QuerySingleAsync<int>(
                 @"insert into MF.tAirport ([Name])
                   output INSERTED.AirportId
                   values(@Name)", new { Name = name } );
@@ -20,6 +20,6 @@ namespace MarketFlight.Data
         public static async Task<AirportModel?> GetAirportById( IDbConnection dbConnection, int airportId )
             => (await dbConnection.QueryAsync<AirportModel?>(
                            "select AirportId, [Name] from MF.tUser where AirportId = @AiportId",
-                           new { AirportId = airportId } )).FirstOrDefault();
+                           new { AirportId = airportId } )).SingleOrDefault();
     }
 }
