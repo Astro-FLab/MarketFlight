@@ -26,18 +26,18 @@ namespace MarketFlight.Controllers
         [HttpGet]
         public Task<IEnumerable<FlightModel>> GetAll() => FlightTable.GetAllFlights( _dbConnection );
 
-        [HttpGet( "marketflight/flights/{flightId}" )]
+        [HttpGet( "{flightId}" )]
         public async Task<IActionResult> GetAsync( int flightId )
         {
             var res = await FlightTable.GetFlightById( _dbConnection, flightId );
             return res == null ? NotFound() : (IActionResult)Ok( res );
         }
 
-        [HttpDelete( "marketflight/flights/{flightId}" )]
+        [HttpDelete( "{flightId}" )]
         public Task<bool> DeleteById( int flightId ) => FlightTable.DeleteFlightById( _dbConnection, flightId );
 
         [HttpPost]
-        public Task<int> CreateAsync( int departureAirportId, int arrivalAirportId )
-            => FlightTable.CreateFlight( _dbConnection, departureAirportId, arrivalAirportId );
+        public Task<int> CreateAsync( int departureAirportId, int arrivalAirportId, int totalSeatCount )
+            => FlightTable.CreateFlight( _dbConnection, departureAirportId, arrivalAirportId, totalSeatCount );
     }
 }
