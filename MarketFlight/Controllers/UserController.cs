@@ -15,21 +15,22 @@ namespace MarketFlight.Controllers
     [Route( "marketflight/user" )]
     public class UserController : ControllerBase
     {
-        readonly IActivityMonitor _m;
         private readonly IDbConnection _dbConnection;
 
         public UserController( IActivityMonitor m, IDbConnection dbConnection )
         {
-            _m = m;
             _dbConnection = dbConnection;
         }
 
-        [HttpGet]
+        [HttpGet( "marketflight/user/{userId}" )]
         public async Task<IActionResult> GetAsync( int userId )
         {
             UserModel? res = await UserTable.GetUserById( _dbConnection, userId );
             return res == null ? NotFound() : (IActionResult)Ok( res );
         }
+
+        [HttpGet]
+        public Task<IEnumerable<UserModel>> GetAllAsync() => UserTable.GetAllUsers( _dbConnection );
 
         [HttpPost]
         public Task<int> CreateAsync( string firstName, string lastName )

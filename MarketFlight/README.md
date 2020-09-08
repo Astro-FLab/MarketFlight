@@ -23,24 +23,24 @@ POST - Create an user params: firstName(string), lastName(string)
 ### marketflight/users/:user_id
 
 GET - Get an user
-PUT - Update an user
-DELETE - Delete an user
+PUT - Update an user //Later
+DELETE - Delete an user //later, hard(what do we do if the user have orders ?)
 
-### marketflight/users/:user_id/flights
+### marketflight/users/:user_id/orders
 
-GET - Get all flights for an given user
+GET - Get all orders for an given user
 
 ## ORDERS
 
 ### marketflight/orders
 
 GET - Get all orders
-POST - Create an order
+POST - Create an order //return -1 if not enough seat
 
 ### marketflight/orders/:order_id
 
 GET - Get an order
-PUT - Update an order
-DELETE - Delete an order
+PUT - Update an order //Later
+DELETE - Delete an order //Later
 
 ### market
