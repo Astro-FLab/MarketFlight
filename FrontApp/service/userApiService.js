@@ -1,9 +1,12 @@
-import { postAsync, getAsync } from "../helpers/apiHelper";
+import {
+    postAsync,
+    getAsync
+} from "../helpers/apiHelper";
+
 const endpoint = "/marketflight/users";
 
 class UserApiService {
-    constructor() {
-    }
+    constructor() {}
 
     async CreateUser(model) {
         return await postAsync(`${endpoint}`, model);
@@ -23,6 +26,10 @@ class UserApiService {
 
     async RemoveUser(userId) {
         return await deleteAsync(`${endpoint}/${userId}`);
+    }
+
+    async GetUserFlights(userId) {
+        return await getAsync(`${endpoint}/${userId}/flights`)
     }
 }
 

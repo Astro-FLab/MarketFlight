@@ -1,9 +1,14 @@
-import { postAsync, getAsync, putAsync, deleteAsync } from "../helpers/apiHelper";
+import {
+    postAsync,
+    getAsync,
+    putAsync,
+    deleteAsync
+} from "../helpers/apiHelper";
+
 const endpoint = "/marketflight/flights";
 
 class FlightApiService {
-    constructor() {
-    }
+    constructor() {}
 
     async GetAllFlights() {
         return await getAsync(`${endpoint}`);
