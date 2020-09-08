@@ -15,7 +15,7 @@ body {
 }
 
 a {
-  color: #ff4500 !important;
+  color: black !important;
   text-decoration: none;
 }
 
@@ -38,7 +38,7 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   -webkit-padding: 0.4em 0;
-  padding: 0.4em;
+  padding: 0.6em;
   margin: 0 0 0.5em 0;
   box-sizing: border-box;
   border: 1px solid #ccc;
@@ -65,4 +65,52 @@ button:not(:disabled):active {
 
 button:focus {
   border-color: #666;
+}
+
+body.dark-mode .fa-icon {
+  fill: orange !important;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.flex-center {
+  align-items: center !important;
+}
+
+.hidden {
+  opacity: 0 !important;
+}
+
+.mr-5 {
+  margin-right: 2rem !important;
+}
+
+.mr-6 {
+  margin-right: 2.5rem !important;
+}
+
+.ml-5 {
+  margin-left: 2rem !important;
+}
+
+.ml-6 {
+  margin-left: 2.5rem !important;
+}
+
+.mb-5 {
+  margin-left: 2rem !important;
+}
+
+.mb-6 {
+  margin-left: 2.5rem !important;
+}
+
+.mt-5 {
+  margin-left: 2rem !important;
+}
+
+.mt-6 {
+  margin-left: 2.5rem !important;
 }
