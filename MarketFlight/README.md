@@ -10,7 +10,7 @@ POST - Create a flight
 ### marketflight/fligths/:fligth_id
 
 GET - Get one flight
-PUT - Update one flight
+PUT - Update one flight //later
 DELETE - Delete one flight
 
 ## USERS
@@ -42,3 +42,5 @@ POST - Create an order
 GET - Get an order
 PUT - Update an order
 DELETE - Delete an order
+
+### market
