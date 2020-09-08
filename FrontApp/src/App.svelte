@@ -1,30 +1,75 @@
-<script>
-	export let name;
+<script lang="ts">
+    import { Router, Link, Route } from 'svelte-routing';
+    import Flights from './Flights/Flights.svelte';
+    import Icon from 'svelte-awesome/components/Icon.svelte';
+    import { faHome, faMoon, faPlane } from '@fortawesome/free-solid-svg-icons';
+    import HomePage from './HomePage/HomePage.svelte';
+
+    export let name: string;
+    export let url = '';
+
+    function toggleDarkMode() {
+        window.document.body.classList.toggle('dark-mode');
+    }
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
+    :global(body.dark-mode) {
+        background-color: black !important;
+        color: white;
+    }
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
+    nav {
+        opacity: 0.8;
+    }
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+    .navbar-brand {
+        color: orange !important;
+    }
+
+    main {
+        text-align: center;
+        padding: 1em;
+        max-width: 240px;
+        margin: 0 auto;
+    }
+
+    @media (min-width: 640px) {
+        main {
+            max-width: none;
+        }
+    }
 </style>
+
+<Router {url}>
+    <!-- NavBar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1 mr-6"> {name}</span>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active mr-6 d-flex flex-center">
+                <Icon data={faHome} class="mr-2" />
+                <Link to="/">Home</Link>
+            </li>
+            <li class="nav-item">
+                <Icon data={faPlane} class="mr-2" />
+                <Link class="nav-item" to="/flights">Flights</Link>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item ml-1">
+                <button type="button" class="btn btn-dark" on:click={toggleDarkMode}>
+                    <Icon data={faMoon} />
+                    Toggle Dark Mode
+                </button>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Routes -->
+    <div>
+        <Route path="flights" component={Flights} />
+        <Route path="/" component={HomePage} />
+    </div>
+</Router>
+
+<main />
