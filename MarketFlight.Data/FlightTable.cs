@@ -23,9 +23,9 @@ namespace MarketFlight.Data
                              tf.DepartureAirport as 'DepartureAirportId', ta1.[Name] as 'DepartureAirportName',
                              tf.ArrivalAirport as 'ArrivalAirportId', ta2.[Name] as 'ArrivalAirportName'
                              from MF.tFlight tf
-                             join MF.tAirport ta1 on where tf.DepartureAirportId = ta1.AirportId
-                             join MF.tAirport ta2 on where tf.ArrivalAirport = ta2.AirportId
-                             where tf.FlightId",
+                             join MF.tAirport ta1 on tf.DepartureAirport = ta1.AirportId
+                             join MF.tAirport ta2 on tf.ArrivalAirport = ta2.AirportId
+                             where tf.FlightId = @FlightId",
                            new { FlightId = flightId } )).SingleOrDefault();
     }
 }
