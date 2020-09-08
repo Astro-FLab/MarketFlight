@@ -1,6 +1,6 @@
 import { Entity } from '@decahedron/entity';
 
-class Flight extends Entity {
+export class Flight extends Entity {
     // We instantiate with null to ensure the property exists
     // at the time of hydration.
     public FlightId: number = null;
