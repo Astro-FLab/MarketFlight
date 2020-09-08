@@ -24,5 +24,5 @@
 </style>
 
 <main>
-    <h1>Flights</h1>
+    <h1>MyFlights</h1>
 </main>

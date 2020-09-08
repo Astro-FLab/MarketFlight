@@ -55,16 +55,50 @@
         font-family: Khula;
         font-size: 4em;
         text-align: center;
-        height: 200px;
         width: auto;
         display: block;
         position: absolute;
         color: white;
-        top: 0;
+        top: 80px;
         bottom: 0;
         left: 0;
         right: 0;
         margin: auto;
+    }
+
+    .airplane {
+        top: 38%;
+        left: 42%;
+        position: absolute;
+        z-index: 1;
+    }
+
+    .flame {
+        top: -40px;
+        left: 150px;
+        height: 10px;
+        width: 60px;
+        position: relative;
+        border-radius: 50%;
+        background-color: orange;
+        animation: flame 0.4s linear infinite;
+        z-index: -1;
+    }
+
+    .flame2 {
+        top: -195px;
+        left: 115px;
+    }
+    @keyframes flame {
+        0% {
+            transform: translateX(0%);
+        }
+        50% {
+            transform: translateX(50%);
+        }
+        100% {
+            transform: translateX(0%);
+        }
     }
 
     @media (min-width: 640px) {
@@ -76,4 +110,13 @@
 
 <main>
     <div class="console-container"><span id="homeText" /></div>
+
+    <!-- <div class="sky"> -->
+    <div class="airplane">
+        <img src="https://i.ibb.co/SPpRcJz/airplane.png" />
+
+        <div class="flame" />
+        <div class="flame flame2" />
+    </div>
+    <!-- </div> -->
 </main>
