@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Router, Link, Route } from 'svelte-routing';
-    import Flights from './Flights/Flights.svelte';
+    import Flights from './Pages/Flights/Flights.svelte';
     import Icon from 'svelte-awesome/components/Icon.svelte';
     import { faHome, faMoon, faPlane } from '@fortawesome/free-solid-svg-icons';
-    import HomePage from './HomePage/HomePage.svelte';
+    import HomePage from './Pages/HomePage/HomePage.svelte';
 
     export let name: string;
     export let url = '';
