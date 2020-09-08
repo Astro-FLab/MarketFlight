@@ -22,7 +22,7 @@ namespace MarketFlight.Controllers
             _dbConnection = dbConnection;
         }
 
-        [HttpGet( "marketflight/user/{userId}" )]
+        [HttpGet( "{userId}" )]
         public async Task<IActionResult> GetAsync( int userId )
         {
             UserModel? res = await UserTable.GetUserById( _dbConnection, userId );
