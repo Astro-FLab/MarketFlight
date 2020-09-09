@@ -63,7 +63,7 @@
                 <Icon data={faPlaneDeparture} class="mr-2" />
                 <Link class="nav-item" to="/flights">Flights</Link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item d-flex flex-center">
                 <Icon data={faRoute} class="mr-2" />
                 <Link class="nav-item" to="/airports">Airports</Link>
             </li>
