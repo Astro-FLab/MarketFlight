@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 using CK.Core;
 using MarketFlight.Data;
 using MarketFlight.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace MarketFlight.Controllers
 {
@@ -27,7 +25,7 @@ namespace MarketFlight.Controllers
         public Task<IEnumerable<OrderModel>> GetAll()
             => OrderTable.GetAllOrders( _dbConnection );
 
-        [HttpGet( "marketflight/orders/{id}" )]
+        [HttpGet( "{id}" )]
         public async Task<IActionResult> GetById( int id )
         {
             OrderModel? result = await OrderTable.GetOrderById( _dbConnection, id );

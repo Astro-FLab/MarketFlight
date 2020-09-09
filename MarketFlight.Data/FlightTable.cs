@@ -11,11 +11,11 @@ namespace MarketFlight.Data
 {
     public static class FlightTable
     {
-        public static Task<int> CreateFlight( IDbConnection dbConnection, int departureAirportId, int arrivalAirportId )
+        public static Task<int> CreateFlight( IDbConnection dbConnection, int departureAirportId, int arrivalAirportId, int totalSeatCount )
             => dbConnection.QuerySingleAsync<int>(
-                @"insert into MF.tFlight (DepartureAirport, ArrivalAirport)
+                @"insert into MF.tFlight (DepartureAirportId, ArrivalAirportId, TotalSeatCount)
                   output INSERTED.FlightId
-                  values(@DepartureAirportId, @ArrivalAirportId)", new { DepartureAirportId = departureAirportId, ArrivalAirportId = arrivalAirportId } );
+                  values(@DepartureAirportId, @ArrivalAirportId, @TotalSeatCount)", new { DepartureAirportId = departureAirportId, ArrivalAirportId = arrivalAirportId, TotalSeatCount = totalSeatCount } );
 
         public static async Task<FlightModel?> GetFlightById( IDbConnection dbConnection, int flightId )
             => (await dbConnection.QueryAsync<FlightModel?>(
