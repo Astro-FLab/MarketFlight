@@ -4,13 +4,15 @@
     import { Button } from 'sveltestrap';
     import Icon from 'svelte-awesome/components/Icon.svelte';
     import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-    import type { Flight } from '../../Models/Flight';
-    import type { User } from '../../Models/User';
+    import { Flight } from '../../Models/Flight';
+    import { User } from '../../Models/User';
 
     export let choosenFlightMode: FlightMode = 'oneWay';
     export let flights: Flight[] = [];
-    export let formNewUser: User = null;
     export let formVisible = false;
+
+    export let choosenFlight: Flight = new Flight();
+    export let formNewUser: User = new User();
 
     function chooseFlightMode(mode: FlightMode) {
         choosenFlightMode = mode;
@@ -18,6 +20,12 @@
 
     function chooseFlight(flight: Flight) {
         formVisible = true;
+        choosenFlight = flight;
+    }
+
+    function bookFlight() {
+        console.log(choosenFlight);
+        console.log(formNewUser);
     }
 </script>
 
@@ -46,7 +54,8 @@
         flex: 0.1;
     }
 
-    .table-container {
+    .table-container,
+    .form-container {
         width: 46%;
         margin-left: auto;
         margin-right: auto;
@@ -62,6 +71,16 @@
         padding: 8px;
         text-align: center;
         border-bottom: 1px solid #ddd;
+    }
+
+    input[type='text'] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
     }
 
     @media (min-width: 640px) {
@@ -96,7 +115,7 @@
         </Button>
     </div>
 
-    <div class="table-container mt-6">
+    <div class="table-container mt-6 mb-6">
         <table>
             <tr>
                 <th>Departure</th>
@@ -107,9 +126,20 @@
                 <tr>
                     <td>{flight.DepartureAirportName}</td>
                     <td>{flight.ArrivalAirportName}</td>
-                    <td><button on:click> Book this flight ! </button></td>
+                    <td><button on:click={() => chooseFlight(flight)}> Book this flight ! </button></td>
                 </tr>
             {/each}
         </table>
+    </div>
+
+    <div class="form-container mt-6 {formVisible ? '' : 'hidden'}">
+        <form>
+            <label for="firstName">First Name</label>
+            <input name="firstName" type="text" bind:value={formNewUser.FirstName} />
+            <label for="lastName">Last Name</label>
+            <input name="lastName" type="text" bind:value={formNewUser.LastName} />
+
+            <button on:click={() => bookFlight()}> Book ! </button>
+        </form>
     </div>
 </main>
