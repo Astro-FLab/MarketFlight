@@ -5,17 +5,20 @@
     import Icon from 'svelte-awesome/components/Icon.svelte';
     import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
     import type { Flight } from '../../Models/Flight';
+    import type { User } from '../../Models/User';
+
+    export let choosenFlightMode: FlightMode = 'oneWay';
+    export let flights: Flight[] = [];
+    export let formNewUser: User = null;
+    export let formVisible = false;
 
     function chooseFlightMode(mode: FlightMode) {
         choosenFlightMode = mode;
     }
 
     function chooseFlight(flight: Flight) {
-        // WIP API CALL
+        formVisible = true;
     }
-
-    export let choosenFlightMode: FlightMode = 'oneWay';
-    export let flights: Flight[] = [];
 </script>
 
 <style>
