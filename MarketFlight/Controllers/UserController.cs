@@ -30,7 +30,7 @@ namespace MarketFlight.Controllers
         }
 
         [HttpGet("{userId}/orders")]
-        public Task<IActionResult> GetUserOrder(int userId)
+        public Task<IEnumerable<OrderModel>> GetUserOrder(int userId)
         {
            return UserTable.GetUserOrders( _dbConnection, userId );
         }
