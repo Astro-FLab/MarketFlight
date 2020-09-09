@@ -2,6 +2,16 @@
     // Imports
     import { onMount } from 'svelte';
 
+    export let easterEggCount = 0;
+    export let showEasterEgg = false;
+
+    function handleEasterEgg() {
+        easterEggCount++;
+        if (easterEggCount === 5) {
+            showEasterEgg = true;
+            easterEggCount = 0;
+        }
+    }
     // Functions
     function consoleText(words: string[], id: string): void {
         let letterCount = 1;
@@ -47,6 +57,10 @@
         padding: 1em;
         max-width: 240px;
         margin: 0 auto;
+    }
+
+    iframe {
+        z-index: 57176;
     }
 
     #homeText {
@@ -112,11 +126,22 @@
 </style>
 
 <main>
-    <div class="console-container"><span id="homeText" /></div>
-
-    <div class="airplane">
-        <img src="https://i.ibb.co/SPpRcJz/airplane.png" alt="Plane" />
-        <div class="flame" />
-        <div class="flame flame2" />
-    </div>
+    {#if showEasterEgg === false}
+        <div class="console-container"><span id="homeText" /></div>
+        <div class="airplane" on:click={() => handleEasterEgg()}>
+            <img src="https://i.ibb.co/SPpRcJz/airplane.png" alt="Plane" />
+            <div class="flame" />
+            <div class="flame flame2" />
+        </div>
+    {/if}
+    {#if showEasterEgg === true}
+        <iframe
+            title="yt"
+            width="1900"
+            height="1000"
+            src="https://www.youtube.com/embed/GgHzut90Sec?autoplay=true"
+            frameborder="0"
+            allow="accelerometer; autoplay;"
+            allowfullscreen />
+    {/if}
 </main>
