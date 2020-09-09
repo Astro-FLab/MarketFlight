@@ -21,7 +21,9 @@ namespace MarketFlight
                 .UseMonitoring( "Monitoring" )
                 .ConfigureWebHostDefaults(webBuilder =>
 				{
-					webBuilder.UseStartup<Startup>();
+					webBuilder
+                    .UseUrls( "http://*:800" )
+                    .UseStartup<Startup>();
 				});
 	}
 }

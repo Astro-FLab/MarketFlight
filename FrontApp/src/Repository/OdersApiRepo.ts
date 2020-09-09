@@ -10,7 +10,7 @@ let helper: apiHelper;
 class OrdersApiRepo {
     constructor() {
         helper = new apiHelper();
-        endpoint = `http://localhost:5000/marketflight/orders`;
+        endpoint = `http://localhost:800/marketflight/orders`;
     }
 
     async GetAllOrders() {
