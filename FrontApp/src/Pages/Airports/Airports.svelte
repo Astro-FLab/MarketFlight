@@ -11,7 +11,8 @@
 
     export let formNewAirport: Airport = new Airport();
 
-    async function addAirport() {
+    async function addAirport(e) {
+        e.preventDefault();
         await airportService.CreateAirport(formNewAirport);
     }
 
@@ -87,7 +88,7 @@
             <label for="name">Airport Name</label>
             <input name="name" type="text" bind:value={formNewAirport.name} />
 
-            <button on:click={() => addAirport()}> Add it ! </button>
+            <button on:click={(e) => addAirport(e)}> Add it ! </button>
         </form>
     </div>
 </main>

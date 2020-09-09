@@ -26,6 +26,16 @@ export default class apiHelper {
             .then(this.checkErrors);
     }
 
+    async postInQueryAsync(url, params) {
+        return await fetch(url + '?' + new URLSearchParams(params), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(this.checkErrors);
+    }
+
     async putAsync(url, data) {
         return await fetch(url, {
             method: 'PUT',

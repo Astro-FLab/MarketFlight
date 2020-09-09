@@ -16,7 +16,7 @@ export default class AirportsApiRepo {
     }
 
     async CreateAirport(model: Airport) {
-        return await helper.postAsync(`${endpoint}`, model).then(jsonData => EntityBuilder.buildOne<Airport>(Airport, jsonData));
+        return await helper.postInQueryAsync(`${endpoint}`, "name=" + model.name).then(jsonData => EntityBuilder.buildOne<Airport>(Airport, jsonData));
     }
 
     async GetAirportById(airportId: number) {

@@ -38,20 +38,21 @@
         console.log(formNewUser);
 
         const user = await userService.CreateUser(formNewUser);
-        const departureAirport = await airportService.GetAirportByName(choosenFlight.DepartureAirportName);
+        const departureAirport = await airportService.GetAirportByName(choosenFlight.departureAirportName);
         const newOrder = new Order();
-        newOrder.FlightId = choosenFlight.FlightId;
+        newOrder.FlightId = choosenFlight.flightId;
         newOrder.OrderDate = new Date();
         newOrder.UserId = user.UserId;
-        newOrder.DepartureAirportId = departureAirport.AirportId;
-        newOrder.DepartureAirportName = departureAirport.Name;
-        newOrder.ArrivalAirportName = choosenFlight.ArrivalAirportName;
+        newOrder.DepartureAirportId = departureAirport.airportId;
+        newOrder.DepartureAirportName = departureAirport.name;
+        newOrder.ArrivalAirportName = choosenFlight.arrivalAirportName;
 
         await ordersService.CreateOrder(newOrder);
     }
 
     onMount(async () => {
         flights = await flightService.GetAllFlights();
+        console.log(flights);
         // WIP Récupérer le User depuis l'api
         // WIP Récupérer les flights du User depuis l'api
     });
@@ -152,8 +153,8 @@
             </tr>
             {#each flights as flight}
                 <tr>
-                    <td>{flight.DepartureAirportName}</td>
-                    <td>{flight.ArrivalAirportName}</td>
+                    <td>{flight.departureAirportName}</td>
+                    <td>{flight.arrivalAirportName}</td>
                     <td><button on:click={() => chooseFlight(flight)}> Book this flight ! </button></td>
                 </tr>
             {/each}
