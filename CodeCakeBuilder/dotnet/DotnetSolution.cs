@@ -64,13 +64,7 @@ namespace CodeCake
         public static DotnetSolution FromSolutionInCurrentWorkingDirectory(
             StandardGlobalInfo globalInfo )
         {
-            string solutionFileName = System.IO.Path.GetFileName(
-                globalInfo.Cake.GetFiles( "*.sln",
-                    new GlobberSettings
-                    {
-                        Predicate = p => !System.IO.Path.GetFileName( p.Path.FullPath ).EndsWith( ".local.sln", StringComparison.OrdinalIgnoreCase )
-                    } ).Single().FullPath
-            );
+            string solutionFileName = "MarketFlight.sln";
             SolutionParserResult sln = globalInfo.Cake.ParseSolution( solutionFileName );
 
             List<SolutionProject> projects = sln

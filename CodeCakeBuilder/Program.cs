@@ -20,11 +20,21 @@ namespace CodeCake
         /// <returns>An error code (typically negative), 0 on success.</returns>
         static int Main( string[] args )
         {
+
+
             string solutionDirectory = args.Contains( SolutionDirectoryIsCurrentDirectoryParameter, StringComparer.OrdinalIgnoreCase )
                                         ? Environment.CurrentDirectory
                                         : null;
             CodeCakeApplication app = new CodeCakeApplication( solutionDirectory );
-            RunResult result = app.Run( args.Where( a => !StringComparer.OrdinalIgnoreCase.Equals( a, SolutionDirectoryIsCurrentDirectoryParameter ) ) );
+            RunResult result = default;
+            try
+            {
+                result = app.Run( args.Where( a => !StringComparer.OrdinalIgnoreCase.Equals( a, SolutionDirectoryIsCurrentDirectoryParameter ) ) );
+            }
+            catch( Exception e )
+            {
+                Console.WriteLine( e );
+            }
             if( result.InteractiveMode == InteractiveMode.Interactive )
             {
                 Console.WriteLine();
@@ -33,6 +43,7 @@ namespace CodeCake
                 Console.ReadKey();
             }
             return result.ReturnCode;
+
         }
     }
 }

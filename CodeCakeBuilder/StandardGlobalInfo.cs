@@ -257,20 +257,6 @@ namespace CodeCake
             return this;
         }
 
-        /// <summary>
-        /// Terminates the script with success if <see cref="ShouldStop"/> is true.
-        /// (Calls <see cref="TerminateAliases.TerminateWithSuccess(ICakeContext, string)">Cake.TerminateWithSuccess</see>.)
-        /// </summary>
-        /// <returns>This info object (allowing fluent syntax).</returns>
-        public StandardGlobalInfo TerminateIfShouldStop()
-        {
-            if( ShouldStop )
-            {
-                Cake.TerminateWithSuccess( "All packages from this commit are already available. Build skipped." );
-            }
-            return this;
-        }
-
     }
 
 }
