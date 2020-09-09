@@ -7,6 +7,7 @@
     import { Flight } from '../../Models/Flight';
     import { User } from '../../Models/User';
     import UserApiRepo from '../../Repository/UserApiRepo';
+    import FlightApiRepo from '../../Repository/FlightApiRepo';
     import OrdersApiRepo from '../../Repository/OrdersApiRepo';
     import { Order } from '../../Models';
 
@@ -17,6 +18,7 @@
     export let choosenFlight: Flight = new Flight();
     export let formNewUser: User = new User();
     export let userService = new UserApiRepo();
+    export let flightService = new FlightApiRepo();
     export let ordersService = new OrdersApiRepo();
 
     function chooseFlightMode(mode: FlightMode) {
@@ -45,6 +47,10 @@
         // WIP Create New User
         // WIP Create Order
     }
+
+    flightService.GetAllFlights().then((data) => {
+        console.log(data);
+    });
 </script>
 
 <style>
