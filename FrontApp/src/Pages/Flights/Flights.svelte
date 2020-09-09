@@ -6,6 +6,7 @@
     import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
     import { Flight } from '../../Models/Flight';
     import { User } from '../../Models/User';
+    import FlightApiRepo from '../../Repository/FlightApiRepo';
 
     export let choosenFlightMode: FlightMode = 'oneWay';
     export let flights: Flight[] = [];
@@ -28,6 +29,7 @@
         console.log(formNewUser);
     }
     console.log('GOOO =>');
+    let flightService = new FlightApiRepo();
     flightService.GetAllFlights().then((data) => {
         console.log(data);
     });
