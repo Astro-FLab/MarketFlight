@@ -101,3 +101,19 @@ begin
 	select @OrderId, Number from @TicketHolders;
 end
 go
+create procedure MF.pEnsureUser
+    @FirstName nvarchar(255),
+    @LastName nvarchar(255),
+    @UserId int output
+as
+begin
+    select UserId from MF.tUser where FirstName = @FirstName and LastName = @LastName;
+    if @UserId = null
+    begin
+        declare @Output table(UserId int);
+        insert into MF.tUser (FirstName, LastName)
+        output INSERTED.UserId into @Output(UserId)
+        values(@FirstName, @LastName);
+        select @UserId = UserId from @Output;
+    end
+end
