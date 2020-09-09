@@ -9,7 +9,9 @@
     import UserApiRepo from '../../Repository/UserApiRepo';
     import OrdersApiRepo from '../../Repository/OrdersApiRepo';
     import AirportsApiRepo from '../../Repository/AirportsApiRepo';
+    import FlightApiRepo from '../../Repository/FlightApiRepo';
     import { Order } from '../../Models';
+    import { onMount } from 'svelte';
 
     export let choosenFlightMode: FlightMode = 'oneWay';
     export let flights: Flight[] = [];
@@ -20,6 +22,7 @@
     export let userService = new UserApiRepo();
     export let ordersService = new OrdersApiRepo();
     export let airportService = new AirportsApiRepo();
+    export let flightService = new FlightApiRepo();
 
     function chooseFlightMode(mode: FlightMode) {
         choosenFlightMode = mode;
@@ -46,6 +49,12 @@
 
         await ordersService.CreateOrder(newOrder);
     }
+
+    onMount(async () => {
+        flights = await flightService.GetAllFlights();
+        // WIP Récupérer le User depuis l'api
+        // WIP Récupérer les flights du User depuis l'api
+    });
 </script>
 
 <style>
