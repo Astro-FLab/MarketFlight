@@ -2,11 +2,15 @@
     import type { User } from '../../Models/User';
     import { onMount } from 'svelte';
     import type { Flight } from '../../Models/Flight';
+    import UserApiRepo from '../../Repository/UserApiRepo';
+    import type { Order } from '../../Models';
 
     export let currentUser: User;
-    export let currentUserFlights: Flight[] = [];
+    export let currentUserFlights: Order[] = [];
+    export let userService = new UserApiRepo();
 
-    onMount(() => {
+    onMount(async () => {
+        currentUserFlights = await userService.GetUserOrders(currentUser.UserId);
         // WIP Récupérer le User depuis l'api
         // WIP Récupérer les flights du User depuis l'api
     });

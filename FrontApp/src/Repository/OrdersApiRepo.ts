@@ -1,13 +1,12 @@
 
-import { Entity, EntityBuilder } from '@decahedron/entity';
+import { EntityBuilder } from '@decahedron/entity';
 import { Order } from '../Models';
 import apiHelper from '../Helpers/apiHelper';
 
 let endpoint: string;
 let helper: apiHelper;
 
-
-class OrdersApiRepo {
+export default class OrdersApiRepo {
     constructor() {
         helper = new apiHelper();
         endpoint = `http://localhost:800/marketflight/orders`;
@@ -17,21 +16,19 @@ class OrdersApiRepo {
         return await helper.getAsync(`${endpoint}`).then(jsonData => EntityBuilder.buildOne<Order>(Order, jsonData));
     }
 
-    async GetOrder(orderId) {
+    async GetOrder(orderId: number) {
         return await helper.getAsync(`${endpoint}/${orderId}`).then(jsonData => EntityBuilder.buildOne<Order>(Order, jsonData));
     }
 
-    async CreateOrder(model) {
+    async CreateOrder(model: Order): Promise<Order> {
         return await helper.postAsync(`${endpoint}`, model).then(jsonData => EntityBuilder.buildOne<Order>(Order, jsonData));
     }
 
-    async UpdateOrder(orderId, model) {
+    async UpdateOrder(orderId: number, model: Order) {
         return await helper.putAsync(`${endpoint}/${orderId}`, model).then(jsonData => EntityBuilder.buildOne<Order>(Order, jsonData));
     }
 
-    async RemoveOrder(orderId) {
+    async RemoveOrder(orderId: number) {
         return await helper.deleteAsync(`${endpoint}/${orderId}`).then(jsonData => EntityBuilder.buildOne<Order>(Order, jsonData));
     }
 }
-
-export default new OrdersApiRepo();

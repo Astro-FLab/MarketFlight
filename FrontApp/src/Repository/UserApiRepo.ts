@@ -1,40 +1,38 @@
 
-import { Entity, EntityBuilder } from '@decahedron/entity';
-import { User } from '../Models';
+import { EntityBuilder } from '@decahedron/entity';
+import { User, Order } from '../Models';
 import apiHelper from '../Helpers/apiHelper';
 
 let endpoint: string;
 let helper: apiHelper;
 
-class UserApiRepo {
+export default class UserApiRepo {
     constructor() {
         helper = new apiHelper();
         endpoint = `http://localhost:800/marketflight/users`;
     }
 
-    async CreateUser(model) {
+    async CreateUser(model: User): Promise<User> {
         return await helper.postAsync(`${endpoint}`, model);
     }
 
-    async GetAllUsers() {
-        return await helper.getAsync(`${endpoint}`).then(jsonData => EntityBuilder.buildOne<User>(User, jsonData));
+    async GetAllUsers(): Promise<User[]> {
+        return await helper.getAsync(`${endpoint}`).then(jsonData => EntityBuilder.buildMany<User>(User, jsonData));
     }
 
-    async GetUser(userId) {
+    async GetUser(userId: number) {
         return await helper.getAsync(`${endpoint}/${userId}`).then(jsonData => EntityBuilder.buildOne<User>(User, jsonData));
     }
 
-    async UpdateUser(userId, model) {
+    async UpdateUser(userId: number, model: User) {
         return await helper.putAsync(`${endpoint}/${userId}`, model).then(jsonData => EntityBuilder.buildOne<User>(User, jsonData));
     }
 
-    async RemoveUser(userId) {
+    async RemoveUser(userId: number) {
         return await helper.deleteAsync(`${endpoint}/${userId}`).then(jsonData => EntityBuilder.buildOne<User>(User, jsonData));
     }
 
-    async GetUserFlights(userId) {
-        return await helper.getAsync(`${endpoint}/${userId}/flights`).then(jsonData => EntityBuilder.buildOne<User>(User, jsonData));
+    async GetUserOrders(userId: number): Promise<Order[]> {
+        return await helper.getAsync(`${endpoint}/${userId}/orders`).then(jsonData => EntityBuilder.buildMany<Order>(Order, jsonData));
     }
 }
-
-export default new UserApiRepo();
