@@ -37,12 +37,12 @@
         console.log(choosenFlight);
         console.log(formNewUser);
 
-        const user = await userService.CreateUser(formNewUser);
+        const userId = await userService.CreateUserIfNotExist(formNewUser);
         const departureAirport = await airportService.GetAirportByName(choosenFlight.departureAirportName);
         const newOrder = new Order();
         newOrder.FlightId = choosenFlight.flightId;
         newOrder.OrderDate = new Date();
-        newOrder.UserId = user.UserId;
+        newOrder.UserId = userId;
         newOrder.DepartureAirportId = departureAirport.airportId;
         newOrder.DepartureAirportName = departureAirport.name;
         newOrder.ArrivalAirportName = choosenFlight.arrivalAirportName;
