@@ -6,7 +6,9 @@
     import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
     import { Flight } from '../../Models/Flight';
     import { User } from '../../Models/User';
-    import FlightApiRepo from '../../Repository/FlightApiRepo';
+    import UserApiRepo from '../../Repository/UserApiRepo';
+    import OrdersApiRepo from '../../Repository/OrdersApiRepo';
+    import { Order } from '../../Models';
 
     export let choosenFlightMode: FlightMode = 'oneWay';
     export let flights: Flight[] = [];
@@ -14,6 +16,8 @@
 
     export let choosenFlight: Flight = new Flight();
     export let formNewUser: User = new User();
+    export let userService = new UserApiRepo();
+    export let ordersService = new OrdersApiRepo();
 
     function chooseFlightMode(mode: FlightMode) {
         choosenFlightMode = mode;
@@ -24,15 +28,23 @@
         choosenFlight = flight;
     }
 
-    function bookFlight() {
+    async function bookFlight() {
         console.log(choosenFlight);
         console.log(formNewUser);
+
+        const user = await userService.CreateUser(formNewUser);
+
+        const newOrder = new Order();
+        newOrder.FlightId = choosenFlight.FlightId;
+        newOrder.OrderDate = new Date();
+        newOrder.UserId = user.UserId;
+        newOrder.DepartureAirportName = choosenFlight.DepartureAirportName;
+        newOrder.ArrivalAirportName = choosenFlight.ArrivalAirportName;
+
+        await ordersService.CreateOrder(newOrder);
+        // WIP Create New User
+        // WIP Create Order
     }
-    console.log('GOOO =>');
-    let flightService = new FlightApiRepo();
-    flightService.GetAllFlights().then((data) => {
-        console.log(data);
-    });
 </script>
 
 <style>
