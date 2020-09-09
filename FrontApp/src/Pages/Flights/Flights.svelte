@@ -1,4 +1,16 @@
 <script lang="ts">
+    import FlightApiRepo from '../../Repository/FlightApiRepo';
+    import type { Flight } from '../../Models';
+
+    let flightService = new FlightApiRepo();
+
+    console.log('GOOO =>');
+    // const allFlights = async (): Promise<Flight> => {
+    flightService.GetAllFlights().then((data) => {
+        console.log(data);
+    });
+    //return data;
+    // };
 </script>
 
 <style>
