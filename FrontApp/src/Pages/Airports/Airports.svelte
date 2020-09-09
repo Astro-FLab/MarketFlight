@@ -17,6 +17,7 @@
 
     onMount(async () => {
         airports = await airportService.GetAllAirPorts();
+        console.log(airports);
     });
 </script>
 
@@ -74,7 +75,7 @@
             </tr>
             {#each airports as airport}
                 <tr>
-                    <td>{airport.Name}</td>
+                    <td>{airport.name}</td>
                 </tr>
             {/each}
         </table>
@@ -85,7 +86,7 @@
     <div class="form-container mt-6">
         <form>
             <label for="name">Airport Name</label>
-            <input name="name" type="text" bind:value={formNewAirport.Name} />
+            <input name="name" type="text" bind:value={formNewAirport.name} />
 
             <button on:click={() => addAirport()}> Add it ! </button>
         </form>
