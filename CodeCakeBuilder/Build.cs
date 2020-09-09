@@ -33,7 +33,7 @@ namespace CodeCake
 
             globalInfo.GetDotnetSolution().Test();
             Cake.DotNetCorePublish( "MarketFlight" );
-            string SourcePath = @"MarketFlight\bin\Debug\netcoreapp3.1\publish\";
+            string SourcePath = @"MarketFlight/bin/Debug/netcoreapp3.1/publish/";
             string release = "release/";
             //Now Create all of the directories
             foreach( string dirPath in Directory.GetDirectories( SourcePath, "*",
