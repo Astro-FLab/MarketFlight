@@ -21,5 +21,10 @@ namespace MarketFlight.Data
             => (await dbConnection.QueryAsync<AirportModel?>(
                            "select AirportId, [Name] from MF.tUser where AirportId = @AiportId",
                            new { AirportId = airportId } )).SingleOrDefault();
+
+        public static Task<IEnumerable<AirportModel>> FindAirportByName( IDbConnection dbConnection, string name )
+            => dbConnection.QueryAsync<AirportModel>(
+                "select AirportId, [Name] from MF.tUser where [Name] like concat('%', @AirportName, '%')", new { AirportName = name }
+                );
     }
 }
