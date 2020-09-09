@@ -9,6 +9,7 @@
     import UserApiRepo from '../../Repository/UserApiRepo';
     import FlightApiRepo from '../../Repository/FlightApiRepo';
     import OrdersApiRepo from '../../Repository/OrdersApiRepo';
+    import AirportsApiRepo from '../../Repository/AirportsApiRepo';
     import { Order } from '../../Models';
 
     export let choosenFlightMode: FlightMode = 'oneWay';
@@ -20,6 +21,7 @@
     export let userService = new UserApiRepo();
     export let flightService = new FlightApiRepo();
     export let ordersService = new OrdersApiRepo();
+    export let airportService = new AirportsApiRepo();
 
     function chooseFlightMode(mode: FlightMode) {
         choosenFlightMode = mode;
@@ -35,17 +37,16 @@
         console.log(formNewUser);
 
         const user = await userService.CreateUser(formNewUser);
-
+        const departureAirport = await airportService.GetAirportByName(choosenFlight.DepartureAirportName);
         const newOrder = new Order();
         newOrder.FlightId = choosenFlight.FlightId;
         newOrder.OrderDate = new Date();
         newOrder.UserId = user.UserId;
-        newOrder.DepartureAirportName = choosenFlight.DepartureAirportName;
+        newOrder.DepartureAirportId = departureAirport.AirportId;
+        newOrder.DepartureAirportName = departureAirport.Name;
         newOrder.ArrivalAirportName = choosenFlight.ArrivalAirportName;
 
         await ordersService.CreateOrder(newOrder);
-        // WIP Create New User
-        // WIP Create Order
     }
 
     flightService.GetAllFlights().then((data) => {

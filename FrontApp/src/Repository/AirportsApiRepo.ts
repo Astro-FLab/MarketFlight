@@ -1,4 +1,4 @@
-import { Entity, EntityBuilder } from '@decahedron/entity';
+import { EntityBuilder } from '@decahedron/entity';
 import { Airport } from '../Models';
 import apiHelper from '../Helpers/apiHelper';
 
@@ -23,7 +23,7 @@ export default class AirportsApiRepo {
         return await helper.getAsync(`${endpoint}/${airportId}`).then(jsonData => EntityBuilder.buildOne<Airport>(Airport, jsonData));
     }
 
-    async GetAirportByName(airportName) {
+    async GetAirportByName(airportName: string): Promise<Airport> {
         return await helper.getAsync(`${endpoint}/${airportName}/byName`).then(jsonData => EntityBuilder.buildOne<Airport>(Airport, jsonData));
     }
 
