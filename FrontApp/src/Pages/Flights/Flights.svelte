@@ -7,7 +7,6 @@
     import { Flight } from '../../Models/Flight';
     import { User } from '../../Models/User';
     import UserApiRepo from '../../Repository/UserApiRepo';
-    import FlightApiRepo from '../../Repository/FlightApiRepo';
     import OrdersApiRepo from '../../Repository/OrdersApiRepo';
     import AirportsApiRepo from '../../Repository/AirportsApiRepo';
     import FlightApiRepo from '../../Repository/FlightApiRepo';
@@ -21,7 +20,6 @@
     export let choosenFlight: Flight = new Flight();
     export let formNewUser: User = new User();
     export let userService = new UserApiRepo();
-    export let flightService = new FlightApiRepo();
     export let ordersService = new OrdersApiRepo();
     export let airportService = new AirportsApiRepo();
     export let flightService = new FlightApiRepo();
