@@ -1,5 +1,6 @@
 using Dapper;
 using MarketFlight.Model;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,5 +19,13 @@ namespace MarketFlight.Data
             => (await dbConnection.QueryAsync<UserModel?>(
                            "select UserId, FirstName, LastName from MF.tUser where UserId = @UserId",
                            new { UserId = userId } )).SingleOrDefault();
+
+        public static Task<IEnumerable<UserModel>> GetAllUsers( IDbConnection dbConnection )
+            => dbConnection.QueryAsync<UserModel>(
+                           "select UserId, FirstName, LastName from MF.tUser" );
+
+        public static Task<IEnumerable<OrderModel>> GetUserOrders( IDbConnection dbConnection, int userId )
+            => dbConnection.QueryAsync<OrderModel>(
+                "select * from MF.vOrder where to.UserId = @UserId", new { UserId = userId } );
     }
 }

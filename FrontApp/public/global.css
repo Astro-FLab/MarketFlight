@@ -71,6 +71,37 @@ body.dark-mode .fa-icon {
   fill: orange !important;
 }
 
+h1 {
+  color: orange;
+  font-size: 4em;
+  font-weight: 100;
+}
+
+h2 {
+  color: orange;
+  font-size: 3.5em;
+  font-weight: 100;
+}
+
+h3 {
+  color: orange;
+  font-size: 3em;
+  font-weight: 100;
+}
+
+p {
+   text-align: justify;
+   text-justify: inter-word;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.button-active {
+  background-color: orange !important;
+}
+
 .d-flex {
   display: flex !important;
 }
