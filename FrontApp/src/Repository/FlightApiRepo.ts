@@ -14,7 +14,7 @@ export default class FlightApiRepo {
 
 
     async GetAllFlights() {
-        return await helper.getAsync(`${endpoint}`).then(jsonData => EntityBuilder.buildOne<Flight>(Flight, jsonData));
+        return await helper.getAsync(`${endpoint}`).then(jsonData => EntityBuilder.buildMany<Flight>(Flight, jsonData));
     }
 
     async CreateFlight(model) {
