@@ -19,6 +19,9 @@ namespace CodeCake
     {
         public Build()
         {
+            try
+            {
+
             Cake.Log.Verbosity = Verbosity.Diagnostic;
             SimpleRepositoryInfo gitInfo = Cake.GetSimpleRepositoryInfo();
             StandardGlobalInfo globalInfo = CreateStandardGlobalInfo( gitInfo )
@@ -41,6 +44,12 @@ namespace CodeCake
             foreach( string newPath in Directory.GetFiles( SourcePath, "*.*",
                 SearchOption.AllDirectories ) )
                 File.Copy( newPath, newPath.Replace( SourcePath, release ), true );
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine( e );
+                throw e;
+            }
             Task( "Default" );
 
         }
