@@ -17,18 +17,18 @@ DELETE - Delete one flight
 
 ### marketflight/users
 
-GET - Get all users  params: userId(number)
-POST - Create an user params: firstName(string), lastName(string)
+GET - Get all users
+POST - Create a user  params: firstName(string), lastName(string)
 
 ### marketflight/users/:user_id
 
-GET - Get an user
-PUT - Update an user //Later
-DELETE - Delete an user //later, hard(what do we do if the user have orders ?)
+GET - Get a user
+PUT - Update a user //Later
+DELETE - Delete a user //later, hard(what do we do if the user have orders ?)
 
 ### marketflight/users/:user_id/orders
 
-GET - Get all orders for an given user
+GET - Get all orders for a given user
 
 ## ORDERS
 
