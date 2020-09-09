@@ -39,7 +39,7 @@
 </style>
 
 <main>
-    <h1>My Account</h1>
+    <h1>My Orders</h1>
 
     <h3>{currentUser?.FirstName}</h3>
     <h3>{currentUser?.LastName}</h3>
