@@ -59,13 +59,13 @@
                 <Icon data={faHome} class="mr-2" />
                 <Link to="/">Home</Link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item mr-6">
                 <Icon data={faPlaneDeparture} class="mr-2" />
-                <Link class="nav-item" to="/flights">All Flights</Link>
+                <Link class="nav-item" to="/flights">Flights</Link>
             </li>
             <li class="nav-item">
                 <Icon data={faRoute} class="mr-2" />
-                <Link class="nav-item" to="/airports">All Airports</Link>
+                <Link class="nav-item" to="/airports">Airports</Link>
             </li>
         </ul>
         <ul class="navbar-nav">
