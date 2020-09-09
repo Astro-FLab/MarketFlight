@@ -2,9 +2,17 @@
     import { Router, Link, Route } from 'svelte-routing';
     import Flights from './Pages/Flights/Flights.svelte';
     import Icon from 'svelte-awesome/components/Icon.svelte';
-    import { faHome, faMoon, faPlane, faPlaneArrival, faPlaneDeparture } from '@fortawesome/free-solid-svg-icons';
+    import {
+        faHome,
+        faMoon,
+        faPlane,
+        faPlaneArrival,
+        faPlaneDeparture,
+        faRoute,
+    } from '@fortawesome/free-solid-svg-icons';
     import HomePage from './Pages/HomePage/HomePage.svelte';
     import MyOrders from './Pages/MyOrders/MyOrders.svelte';
+    import Airports from './Pages/Airports/Airports.svelte';
 
     export let name: string;
     export let url = '';
@@ -55,6 +63,10 @@
                 <Icon data={faPlaneDeparture} class="mr-2" />
                 <Link class="nav-item" to="/flights">All Flights</Link>
             </li>
+            <li class="nav-item">
+                <Icon data={faRoute} class="mr-2" />
+                <Link class="nav-item" to="/airports">All Airports</Link>
+            </li>
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item mr-6">
@@ -74,6 +86,7 @@
 
     <!-- Routes -->
     <div>
+        <Route path="airports" component={Airports} />
         <Route path="flights" component={Flights} />
         <Route path="my-orders" component={MyOrders} />
         <Route path="/" component={HomePage} />

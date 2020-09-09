@@ -12,14 +12,14 @@ export default class AirportsApiRepo {
     }
 
     async GetAllAirPorts() {
-        return await helper.getAsync(`${endpoint}`).then(jsonData => EntityBuilder.buildMany<Airport>(Airport, jsonData));
+        return await helper.getAsync(`${endpoint}/getAllAirports`).then(jsonData => EntityBuilder.buildMany<Airport>(Airport, jsonData));
     }
 
-    async CreateAirport(model) {
+    async CreateAirport(model: Airport) {
         return await helper.postAsync(`${endpoint}`, model).then(jsonData => EntityBuilder.buildOne<Airport>(Airport, jsonData));
     }
 
-    async GetAirportById(airportId) {
+    async GetAirportById(airportId: number) {
         return await helper.getAsync(`${endpoint}/${airportId}`).then(jsonData => EntityBuilder.buildOne<Airport>(Airport, jsonData));
     }
 
@@ -27,11 +27,11 @@ export default class AirportsApiRepo {
         return await helper.getAsync(`${endpoint}/${airportName}/byName`).then(jsonData => EntityBuilder.buildOne<Airport>(Airport, jsonData));
     }
 
-    async UpdateAirport(airportId, model) {
+    async UpdateAirport(airportId: number, model: Airport) {
         return await helper.putAsync(`${endpoint}/${airportId}`, model).then(jsonData => EntityBuilder.buildOne<Airport>(Airport, jsonData));
     }
 
-    async RemoveAirport(airportId) {
+    async RemoveAirport(airportId: number) {
         return await helper.deleteAsync(`${endpoint}/${airportId}`).then(jsonData => EntityBuilder.buildOne<Airport>(Airport, jsonData));
     }
 }
