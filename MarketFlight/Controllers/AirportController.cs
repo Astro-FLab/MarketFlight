@@ -34,5 +34,8 @@ namespace MarketFlight.Controllers
         [HttpPost]
         public Task<int> CreateAsync( string name )
             => AirportTable.CreateAirport( _dbConnection, name );
+
+        [HttpGet( "byName/{name}" )]
+        public Task<IEnumerable<AirportModel>> FindByName( string name ) => AirportTable.FindAirportByName( _dbConnection, name );
     }
 }
