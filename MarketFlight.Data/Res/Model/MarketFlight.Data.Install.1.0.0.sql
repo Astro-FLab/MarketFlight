@@ -1,3 +1,9 @@
+IF NOT EXISTS ( SELECT  *
+                FROM    sys.schemas
+                WHERE   name = 'MF' )
+    EXEC('CREATE SCHEMA [MF]');
+GO
+
 drop table if exists MF.tFlightToSell;
 drop table if exists MF.tBundleItems;
 drop table if exists MF.tOrder;

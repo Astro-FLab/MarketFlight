@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace MarketFlight.Controllers
 {
     [ApiController]
-    [Route( "marketflight/airport" )]
+    [Route( "marketflight/airports" )]
     public class AirportController : ControllerBase
     {
         readonly IActivityMonitor _m;
@@ -37,5 +37,8 @@ namespace MarketFlight.Controllers
 
         [HttpGet( "byName/{name}" )]
         public Task<IEnumerable<AirportModel>> FindByName( string name ) => AirportTable.FindAirportByName( _dbConnection, name );
+
+        [HttpGet( "getAllAirports" )]
+        public Task<IEnumerable<AirportModel>> GetAllAirport() => AirportTable.GetAllAirport( _dbConnection  );
     }
 }
