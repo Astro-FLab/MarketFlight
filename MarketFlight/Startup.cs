@@ -38,6 +38,7 @@ namespace MarketFlight
             app.UseRouting();
             app.UseCors( a =>
                 a.WithOrigins( "http://localhost:5000" )
+                .WithOrigins( "localhost:5000" )
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()
