@@ -1,4 +1,5 @@
-export * from './User';
 export * from './Airport';
-export * from './Order';
+export * from './Bundle';
 export * from './Flight';
+export * from './Order';
+export * from './User';

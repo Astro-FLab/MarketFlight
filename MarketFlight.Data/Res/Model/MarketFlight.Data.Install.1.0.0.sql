@@ -1,14 +1,16 @@
-IF NOT EXISTS ( select  *
-                from    sys.schemas
-                where   name = 'MF' )
-begin
-    exec ('create schema MF')
-end
-go
+drop table if exists MF.tFlightToSell;
+drop table if exists MF.tBundleItems;
 drop table if exists MF.tOrder;
+drop table if exists MF.tBundle;
 drop table if exists MF.tFlight;
 drop table if exists MF.tAirport;
 drop table if exists MF.tUser;
+drop view if exists MF.vFlight;
+drop view if exists MF.vOrder;
+drop procedure if exists MF.pCreateOrder;
+drop type if exists IntList;
+
+create type IntList as table ( Number int );
 create table MF.tUser(
     UserId int not null identity(1,1) primary key,
     FirstName nvarchar(255) not null,
@@ -22,56 +24,74 @@ create table MF.tAirport(
 
 create table MF.tFlight(
     FlightId int not null identity(1,1) primary key,
-    DepartureAirport int not null foreign key references MF.tAirport(AirportId),
-    ArrivalAirport int not null foreign key references MF.tAirport(AirportId),
-    TotalSeatCout int not null
+    SeatCount int not null,
+    DepartureAirportId int not null foreign key references MF.tAirport(AirportId),
+    ArrivalAirportId int not null foreign key references MF.tAirport(AirportId),
+);
+
+create table MF.tBundle(
+    BundleId int not null identity(1,1) primary key,
+    Price money not null
+);
+
+create table MF.tBundleItems(
+    BundleId int not null foreign key references MF.tBundle(BundleId),
+    FlightId int not null foreign key references MF.tFlight(FlightId)
 );
 
 create table MF.tOrder(
     OrderId int not null identity(1,1) primary key,
-    UserId int not null foreign key references MF.tUser(UserId),
-    FlightId int not null foreign key references MF.tFlight(FlightId),
+    BuyerId int not null foreign key references MF.tUser(UserId),
+    BundleId int not null foreign key references MF.tBundle(BundleId),
     OrderDate datetime2 not null,
-    SeatCount int not null
+    BoughtPrice money not null
+);
+
+create table MF.tOrderItem(
+    OrderId int not null identity(1,1) primary key,
+    TicketOwnerId int not null foreign key references MF.tUser(UserId)
 );
 go
-drop view if exists MF.vFlight;
-go;
+
+go
 create view MF.vFlight as
-    select FlightId,
-        tf.DepartureAirport as 'DepartureAirportId', ta1.[Name] as 'DepartureAirportName',
-        tf.ArrivalAirport as 'ArrivalAirportId', ta2.[Name] as 'ArrivalAirportName'
+    select FlightId as 'FlightId',
+        tf.DepartureAirportId, ta1.[Name] as 'DepartureAirportName',
+        tf.ArrivalAirportId, ta2.[Name] as 'ArrivalAirportName'
         from MF.tFlight tf
-        join MF.tAirport ta1 on tf.DepartureAirport = ta1.AirportId
-        join MF.tAirport ta2 on tf.ArrivalAirport = ta2.AirportId;
-go;
-drop view if exists MF.vOrder;
-go;
-create view MF.vOrder as
-    select * from MF.tOrder tor join MF.vFlight tf on tor.FlightId = tf.FlightId;
-go;
-drop procedure if exists MF.pCreateOrder;
+        join MF.tAirport ta1 on tf.DepartureAirportId = ta1.AirportId
+        join MF.tAirport ta2 on tf.ArrivalAirportId = ta2.AirportId;
+go
+
+go
 go
 create procedure MF.pCreateOrder
-    @UserId int not null,
-    @FlightId int not null,
-    @OrderDate datetime2 not null,
-    @SeatCount int not null,
-    @OrderId int not null output
+    @BuyerId int,
+    @BundleId int,
+    @OrderDate datetime2,
+	@BoughtPrice money,
+	@TicketHolders IntList readonly,
+    @OrderId int output
 as
 begin
-    declare @TotalSeatCount int;
-    select @TotalSeatCount = TotalSeatCount from MF.tFlight where FlightId = @FlightId;
-    declare @CurrentTakenSeat int;
-    select @CurrentTakenSeat = sum(SeatCount) from MF.tOrder where FlightId = @FlightId;
-    declare @RemainingSeatCount int = @TotalSeatCount - @CurrentTakenSeat;
-    if @RemainingSeatCount < @SeatCount
-    begin
-        set @OrderId = -1;
-        return;
-    end
-    insert into MF.tOrder (UserId, FlightId, OrderDate, SeatCount)
-    output INSERTED.OrderId into @OrderId
-    values(@UserId, @FlightId, @OrderDate, @SeatCount)
+	declare @MinCount int;
+	select @MinCount = min(f.SeatCount) from MF.tBundleItems bi join MF.tFlights f on bi.FlightId = f.FlightId where bi.BundleId = @BundleId;
+	if @MinCount < (select count(*) from IntList)
+	begin
+		set @OrderId = -1;
+		return;
+	end
+	update f --substract place count from flights.
+		set SeatCount = SeatCount - (select count(*) from IntList)
+	from MF.tFlights f
+		join MF.tBundleItems bi
+		on bi.FlightId = f.FlightId where bi.BundleId = @BundleId;
+	declare @Output table(OrderId int);
+	insert into MF.tOrder(BuyerId, BundleId, OrderDate, BoughtPrice)
+    output INSERTED.OrderId into @Output(OrderId)
+	values(@BuyerId, @BundleId, @OrderDate, @BoughtPrice);--create the order
+	select @OrderId = OrderId from @Output;
+	insert into MF.tOrderItem(OrderId, TicketOwnerId) 
+	select @OrderId, Number from @TicketHolders;
 end
-go;
+go

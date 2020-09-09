@@ -1,6 +1,8 @@
 <script lang="ts">
+    // Imports
     import { onMount } from 'svelte';
 
+    // Functions
     function consoleText(words: string[], id: string): void {
         let letterCount = 1;
         let x = 1;
@@ -33,6 +35,7 @@
         }, 120);
     }
 
+    // Logic
     onMount(() => {
         consoleText(['Welcome on Market Flight.'], 'homeText');
     });
@@ -111,12 +114,9 @@
 <main>
     <div class="console-container"><span id="homeText" /></div>
 
-    <!-- <div class="sky"> -->
     <div class="airplane">
-        <img src="https://i.ibb.co/SPpRcJz/airplane.png" />
-
+        <img src="https://i.ibb.co/SPpRcJz/airplane.png" alt="Plane" />
         <div class="flame" />
         <div class="flame flame2" />
     </div>
-    <!-- </div> -->
 </main>

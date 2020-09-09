@@ -71,6 +71,37 @@ body.dark-mode .fa-icon {
   fill: orange !important;
 }
 
+h1 {
+  color: orange;
+  font-size: 4em;
+  font-weight: 100;
+}
+
+h2 {
+  color: orange;
+  font-size: 3.5em;
+  font-weight: 100;
+}
+
+h3 {
+  color: orange;
+  font-size: 3em;
+  font-weight: 100;
+}
+
+p {
+   text-align: justify;
+   text-justify: inter-word;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.button-active {
+  background-color: orange !important;
+}
+
 .d-flex {
   display: flex !important;
 }
@@ -100,17 +131,17 @@ body.dark-mode .fa-icon {
 }
 
 .mb-5 {
-  margin-left: 2rem !important;
+  margin-bottom: 2rem !important;
 }
 
 .mb-6 {
-  margin-left: 2.5rem !important;
+  margin-bottom: 2.5rem !important;
 }
 
 .mt-5 {
-  margin-left: 2rem !important;
+  margin-top: 2rem !important;
 }
 
 .mt-6 {
-  margin-left: 2.5rem !important;
+  margin-top: 2.5rem !important;
 }

@@ -4,7 +4,7 @@
     import Icon from 'svelte-awesome/components/Icon.svelte';
     import { faHome, faMoon, faPlane, faPlaneArrival, faPlaneDeparture } from '@fortawesome/free-solid-svg-icons';
     import HomePage from './Pages/HomePage/HomePage.svelte';
-    import MyFlights from './Pages/MyFlights/MyFlights.svelte';
+    import MyAccount from './Pages/MyAccount/MyAccount.svelte';
 
     export let name: string;
     export let url = '';
@@ -59,7 +59,7 @@
         <ul class="navbar-nav">
             <li class="nav-item mr-6">
                 <Icon data={faPlane} class="mr-2" />
-                <Link class="nav-item" to="/my-flights">My Flights</Link>
+                <Link class="nav-item" to="/my-account">My Account</Link>
             </li>
         </ul>
         <ul class="navbar-nav">
@@ -75,7 +75,7 @@
     <!-- Routes -->
     <div>
         <Route path="flights" component={Flights} />
-        <Route path="my-flights" component={MyFlights} />
+        <Route path="my-account" component={MyAccount} />
         <Route path="/" component={HomePage} />
     </div>
 </Router>
