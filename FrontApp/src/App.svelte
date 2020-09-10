@@ -14,6 +14,7 @@
     import MyOrders from './Pages/MyOrders/MyOrders.svelte';
     import AirportsAdm from './Pages/Admin/Airports/Airports.svelte';
     import FlightsAdm from './Pages/Admin/Flights/Flights.svelte';
+    import BundlesAdm from './Pages/Admin/Bundles/Bundles.svelte';
 
     export let name: string;
     export let url = '';
@@ -78,6 +79,10 @@
                 <Icon data={faTools} class="mr-2" />
                 <Link class="nav-item" to="/flightsAdm">Flights</Link>
             </li>
+            <li class="nav-item mr-6">
+                <Icon data={faTools} class="mr-2" />
+                <Link class="nav-item" to="/bundlesAdm">Bundles</Link>
+            </li>
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item ml-4">
@@ -93,6 +98,7 @@
     <div>
         <Route path="airportsAdm" component={AirportsAdm} />
         <Route path="flightsAdm" component={FlightsAdm} />
+        <Route path="bundlesAdm" component={BundlesAdm} />
         <Route path="flights" component={Flights} />
         <Route path="my-orders" component={MyOrders} />
         <Route path="/" component={HomePage} />
