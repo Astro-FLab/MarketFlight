@@ -9,13 +9,13 @@
     import UserApiRepo from '../../Repository/UserApiRepo';
     import OrdersApiRepo from '../../Repository/OrdersApiRepo';
     import AirportsApiRepo from '../../Repository/AirportsApiRepo';
-    import FlightApiRepo from '../../Repository/FlightApiRepo';
-    import { Order } from '../../Models';
+    import { Bundle, Order } from '../../Models';
     import { onMount } from 'svelte';
     import { CurrentUserService } from '../../Helpers/CurrentUserService';
+    // import BundleApiRepo from '../../Repository/BundleApiRepo';
 
     export let choosenFlightMode: FlightMode = 'oneWay';
-    export let flights: Flight[] = [];
+    // export let bundles: Bundle[] = [];
     export let formVisible = false;
 
     export let choosenFlight: Flight = new Flight();
@@ -23,7 +23,7 @@
     export let userService = new UserApiRepo();
     export let ordersService = new OrdersApiRepo();
     export let airportService = new AirportsApiRepo();
-    export let flightService = new FlightApiRepo();
+    // export let bundleService = new BundleApiRepo();
     export let currentUserService: CurrentUserService;
 
     function chooseFlightMode(mode: FlightMode) {
@@ -53,7 +53,7 @@
 
     onMount(async () => {
         currentUserService = CurrentUserService.getInstance();
-        flights = await flightService.GetAllFlights();
+        //bundles = await bundleService.GetAll();
     });
 </script>
 
