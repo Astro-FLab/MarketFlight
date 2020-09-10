@@ -106,13 +106,14 @@
 </style>
 
 <main>
-    <h1 class="my-4">FLights List</h1>
+    <h1 class="my-4">Bundles List</h1>
 
     <div class="table-container mt-6 mb-6">
         <table>
             <tr>
                 <th>Bundle n°</th>
                 <th>Price (€)</th>
+                <th>Choice</th>
             </tr>
             {#each bundles as bundle}
                 <tr>
