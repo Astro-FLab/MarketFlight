@@ -104,11 +104,7 @@ namespace CodeCake
             {
                 List<string> exclude = new List<string>( excludedProjectsName ) { "CodeCakeBuilder" };
                 tempSln.ExcludeProjectsFromBuild( exclude.ToArray() );
-                _globalInfo.Cake.DotNetCoreBuild( tempSln.FullPath.FullPath,
-                    new DotNetCoreBuildSettings().AddVersionArguments( _globalInfo.GitInfo, s =>
-                    {
-                        s.Configuration = _globalInfo.BuildConfiguration;
-                    } ) );
+                _globalInfo.Cake.DotNetCoreBuild( tempSln.FullPath.FullPath );
             }
         }
 
@@ -139,22 +135,16 @@ namespace CodeCake
                         if( File.Exists( testBinariesPath ) )
                         {
                             _globalInfo.Cake.Information( $"Testing via NUnitLite ({framework}): {testBinariesPath}" );
-                            if( !_globalInfo.CheckCommitMemoryKey( testBinariesPath ) )
+                            _globalInfo.Cake.NUnit3( new[] { testBinariesPath }, new NUnit3Settings
                             {
-                                _globalInfo.Cake.NUnit3( new[] { testBinariesPath }, new NUnit3Settings
-                                {
-                                    Results = new[] { new NUnit3Result() { FileName = FilePath.FromString( projectPath.AppendPart( "TestResult.Net461.xml" ) ) } }
-                                } );
-                            }
+                                Results = new[] { new NUnit3Result() { FileName = FilePath.FromString( projectPath.AppendPart( "TestResult.Net461.xml" ) ) } }
+                            } );
                         }
                         else
                         {
                             testBinariesPath = fileWithoutExtension + ".dll";
                             _globalInfo.Cake.Information( $"Testing via NUnitLite ({framework}): {testBinariesPath}" );
-                            if( !_globalInfo.CheckCommitMemoryKey( testBinariesPath ) )
-                            {
-                                _globalInfo.Cake.DotNetCoreExecute( testBinariesPath );
-                            }
+                            _globalInfo.Cake.DotNetCoreExecute( testBinariesPath );
                         }
                     }
                     if( isVSTest )
@@ -162,39 +152,32 @@ namespace CodeCake
                         testBinariesPath = fileWithoutExtension + ".dll";
                         // VS Tests
                         _globalInfo.Cake.Information( $"Testing via VSTest ({framework}): {testBinariesPath}" );
-                        if( !_globalInfo.CheckCommitMemoryKey( testBinariesPath ) )
+                        DotNetCoreTestSettings options = new DotNetCoreTestSettings()
                         {
-                            DotNetCoreTestSettings options = new DotNetCoreTestSettings()
-                            {
-                                Configuration = _globalInfo.BuildConfiguration,
-                                Framework = framework,
-                                NoRestore = true,
-                                NoBuild = true,
-                                Logger = "trx"
-                            };
-                            if( _globalInfo.Cake.Environment.GetEnvironmentVariable( "DisableNodeReUse" ) != null )
-                            {
-                                options.ArgumentCustomization = args => args.Append( "/nodeReuse:false" );
-                            }
-                            _globalInfo.Cake.DotNetCoreTest( projectPath, options );
+                            Configuration = _globalInfo.BuildConfiguration,
+                            Framework = framework,
+                            NoRestore = true,
+                            NoBuild = true,
+                            Logger = "trx"
+                        };
+                        if( _globalInfo.Cake.Environment.GetEnvironmentVariable( "DisableNodeReUse" ) != null )
+                        {
+                            options.ArgumentCustomization = args => args.Append( "/nodeReuse:false" );
                         }
+                        _globalInfo.Cake.DotNetCoreTest( projectPath, options );
                     }
 
                     if( !isVSTest && !isNunitLite )
                     {
                         testBinariesPath = fileWithoutExtension + ".dll";
                         _globalInfo.Cake.Information( "Testing via NUnit: {0}", testBinariesPath );
-                        if( !_globalInfo.CheckCommitMemoryKey( testBinariesPath ) )
+                        _globalInfo.Cake.NUnit( new[] { testBinariesPath }, new NUnitSettings()
                         {
-                            _globalInfo.Cake.NUnit( new[] { testBinariesPath }, new NUnitSettings()
-                            {
-                                Framework = "v4.5",
-                                ResultsFile = FilePath.FromString( projectPath.AppendPart( "TestResult.Net461.xml" ) )
-                            } );
+                            Framework = "v4.5",
+                            ResultsFile = FilePath.FromString( projectPath.AppendPart( "TestResult.Net461.xml" ) )
+                        } );
 
-                        }
                     }
-                    _globalInfo.WriteCommitMemoryKey( testBinariesPath );
                 }
             }
         }

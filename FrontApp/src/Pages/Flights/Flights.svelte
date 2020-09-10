@@ -12,6 +12,7 @@
     import FlightApiRepo from '../../Repository/FlightApiRepo';
     import { Order } from '../../Models';
     import { onMount } from 'svelte';
+    import { CurrentUserService } from '../../Helpers/CurrentUserService';
 
     export let choosenFlightMode: FlightMode = 'oneWay';
     export let flights: Flight[] = [];
@@ -23,6 +24,7 @@
     export let ordersService = new OrdersApiRepo();
     export let airportService = new AirportsApiRepo();
     export let flightService = new FlightApiRepo();
+    export let currentUserService: CurrentUserService;
 
     function chooseFlightMode(mode: FlightMode) {
         choosenFlightMode = mode;
@@ -35,10 +37,8 @@
 
     async function bookFlight(event) {
         event.preventDefault();
-        console.log(choosenFlight);
-        console.log(formNewUser);
-
-        const userId = 1; //await userService.CreateUserIfNotExist(formNewUser);
+        const userId = await userService.CreateUserIfNotExist(formNewUser);
+        currentUserService.currentUserId = 1;
         const departureAirport = await airportService.GetAirportByName(choosenFlight.departureAirportName);
         const newOrder = new Order();
         newOrder.flightId = choosenFlight.flightId;
@@ -60,10 +60,8 @@
     }
 
     onMount(async () => {
+        currentUserService = CurrentUserService.getInstance();
         flights = await flightService.GetAllFlights();
-        console.log(flights);
-        // WIP Récupérer le User depuis l'api
-        // WIP Récupérer les flights du User depuis l'api
     });
 </script>
 
@@ -129,27 +127,27 @@
 </style>
 
 <main>
-    <h1 class="my-4">Réservez des vols sans attendre !</h1>
+    <h1 class="my-4">Book flights now !</h1>
 
     <div class="warning-block ml-auto mr-auto d-flex flex-center">
         <div class="icon-container">
             <Icon class="mr-2" data={faExclamationTriangle} />
         </div>
         <p class="warning-text">
-            Il est désormais obligatoire de porter un masque chirurgical dès votre arrivée à l’aéroport et pendant toute
-            la durée des vols !
+            It is now mandatory to wear a surgical mask upon arrival at the airport and for the entire duration of the
+            flights !
         </p>
     </div>
     <div class="radio-buttons my-4">
         <Button
             class="btn btn-light {choosenFlightMode === 'oneWay' ? 'button-active' : ''}"
             on:click={() => chooseFlightMode('oneWay')}>
-            Aller Simple
+            One way
         </Button>
         <Button
             class="btn btn-light {choosenFlightMode === 'roundTrip' ? 'button-active' : ''}"
             on:click={() => chooseFlightMode('roundTrip')}>
-            Aller Retour
+            Return
         </Button>
     </div>
 
@@ -176,6 +174,8 @@
             <input name="firstName" type="text" bind:value={formNewUser.FirstName} />
             <label for="lastName">Last Name</label>
             <input name="lastName" type="text" bind:value={formNewUser.LastName} />
+            <label for="luggages">Luggages</label>
+            <input name="luggages" type="number" />
 
             <button on:click={(e) => bookFlight(e)}> Book ! </button>
         </form>

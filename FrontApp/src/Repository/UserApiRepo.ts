@@ -24,7 +24,7 @@ export default class UserApiRepo {
         return await helper.getAsync(`${endpoint}`).then(jsonData => EntityBuilder.buildMany<User>(User, jsonData));
     }
 
-    async GetUser(userId: number) {
+    async GetUser(userId: number): Promise<User> {
         return await helper.getAsync(`${endpoint}/${userId}`).then(jsonData => EntityBuilder.buildOne<User>(User, jsonData));
     }
 

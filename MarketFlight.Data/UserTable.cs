@@ -19,7 +19,10 @@ namespace MarketFlight.Data
             => (await dbConnection.QueryAsync<UserModel?>(
                            "select UserId, FirstName, LastName from MF.tUser where UserId = @UserId",
                            new { UserId = userId } )).SingleOrDefault();
-
+        public static async Task<UserModel?> GetUserByName( IDbConnection dbConnection, string name )
+            => (await dbConnection.QueryAsync<UserModel?>(
+                           "select UserId, FirstName, LastName from MF.tUser where Name like concat('%', @Name, '%');",
+                           new { Name = name } )).SingleOrDefault();
         public static Task<IEnumerable<UserModel>> GetAllUsers( IDbConnection dbConnection )
             => dbConnection.QueryAsync<UserModel>(
                            "select UserId, FirstName, LastName from MF.tUser" );

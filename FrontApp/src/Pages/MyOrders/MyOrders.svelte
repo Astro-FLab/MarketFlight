@@ -4,15 +4,17 @@
     import type { Flight } from '../../Models/Flight';
     import UserApiRepo from '../../Repository/UserApiRepo';
     import type { Order } from '../../Models';
+    import { CurrentUserService } from '../../Helpers/CurrentUserService';
 
     export let currentUser: User;
     export let currentUserFlights: Order[] = [];
     export let userService = new UserApiRepo();
+    export let currentUserService: CurrentUserService;
 
     onMount(async () => {
+        currentUserService = CurrentUserService.getInstance();
+        currentUser = await userService.GetUser(currentUserService.currentUserId);
         currentUserFlights = await userService.GetUserOrders(currentUser.UserId);
-        // WIP Récupérer le User depuis l'api
-        // WIP Récupérer les flights du User depuis l'api
     });
 </script>
 
