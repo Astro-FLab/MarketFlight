@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using MarketFlight.Data;
@@ -19,10 +20,15 @@ namespace MarketFlight
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices( IServiceCollection services )
+        public void ConfigureServices( IServiceCollection services, IWebHostEnvironment env )
         {
             services.AddControllers();
             string dbConnectionString = Configuration.GetConnectionString( "dbConnection" );
+            if( env.IsProduction() )
+            {
+                dbConnectionString = Environment.GetEnvironmentVariable( "dbConnection" )!;
+            }
+            Console.WriteLine( "connection string:"+dbConnectionString );
             Migration.DbSetup( dbConnectionString );
             // Inject IDbConnection, with implementation from SqlConnection class.
             services.AddTransient<IDbConnection>( ( sp ) => new SqlConnection( dbConnectionString ) );
