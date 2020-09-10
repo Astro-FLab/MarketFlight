@@ -118,27 +118,27 @@
 </style>
 
 <main>
-    <h1 class="my-4">Réservez des vols sans attendre !</h1>
+    <h1 class="my-4">Book flights now !</h1>
 
     <div class="warning-block ml-auto mr-auto d-flex flex-center">
         <div class="icon-container">
             <Icon class="mr-2" data={faExclamationTriangle} />
         </div>
         <p class="warning-text">
-            Il est désormais obligatoire de porter un masque chirurgical dès votre arrivée à l’aéroport et pendant toute
-            la durée des vols !
+            It is now mandatory to wear a surgical mask upon arrival at the airport and for the entire duration of the
+            flights !
         </p>
     </div>
     <div class="radio-buttons my-4">
         <Button
             class="btn btn-light {choosenFlightMode === 'oneWay' ? 'button-active' : ''}"
             on:click={() => chooseFlightMode('oneWay')}>
-            Aller Simple
+            One way
         </Button>
         <Button
             class="btn btn-light {choosenFlightMode === 'roundTrip' ? 'button-active' : ''}"
             on:click={() => chooseFlightMode('roundTrip')}>
-            Aller Retour
+            Return
         </Button>
     </div>
 
@@ -166,7 +166,7 @@
             <label for="lastName">Last Name</label>
             <input name="lastName" type="text" bind:value={formNewUser.LastName} />
 
-            <button on:click={() => bookFlight()}> Book ! </button>
+            <button on:click={() => bookFlight()}> Confirm </button>
         </form>
     </div>
 </main>
