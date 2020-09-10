@@ -23,7 +23,6 @@ namespace CodeCake
             {
 
                 Cake.Log.Verbosity = Verbosity.Diagnostic;
-                SimpleRepositoryInfo gitInfo = Cake.GetSimpleRepositoryInfo();
                 StandardGlobalInfo globalInfo = new StandardGlobalInfo( Cake )
                                                     .AddDotnet();
                 globalInfo.GetDotnetSolution().Clean();
