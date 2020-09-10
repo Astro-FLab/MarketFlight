@@ -1,6 +1,6 @@
 <script lang="ts">
     // Imports
-    import MultiSelect from './MultiSelect.svelte';
+    import MultiSelect from '../../../Components/MultiSelect.svelte';
     import { Button } from 'sveltestrap';
     import BundleApiRepo from '../../../Repository/BundleApiRepo';
     import FlightApiRepo from '../../../Repository/FlightApiRepo';
