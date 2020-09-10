@@ -139,7 +139,7 @@
             title="yt"
             width="1900"
             height="1000"
-            src="https://www.youtube.com/embed/GgHzut90Sec?autoplay=true"
+            src="https://www.youtube.com/embed/HBxn56l9WcU?start=15&autoplay=true"
             frameborder="0"
             allow="accelerometer; autoplay;"
             allowfullscreen />

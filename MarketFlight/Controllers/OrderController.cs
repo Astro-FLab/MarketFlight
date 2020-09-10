@@ -4,6 +4,7 @@ using System.Data;
 using System.Threading.Tasks;
 using CK.Core;
 using MarketFlight.Data;
+using MarketFlight.DTO;
 using MarketFlight.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,9 +35,9 @@ namespace MarketFlight.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create( int userId, int flightId, DateTime orderDate, int seatCount )
+        public async Task<IActionResult> Create( [FromBody] OrderDTO order )
         {
-            int res = await OrderTable.CreateOrder( _dbConnection, userId, flightId, orderDate, seatCount );
+            int res = await OrderTable.CreateOrder( _dbConnection, order.UserId, order.FlightId, order.OrderDate, order.SeatCount );
             if( res == -1 ) return BadRequest( "Not enough seats" );
             return Ok( res );
         }

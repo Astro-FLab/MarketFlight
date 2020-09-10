@@ -35,19 +35,28 @@
         choosenFlight = flight;
     }
 
-    async function bookFlight() {
+    async function bookFlight(event) {
+        event.preventDefault();
         const userId = await userService.CreateUserIfNotExist(formNewUser);
         currentUserService.currentUserId = 1;
         const departureAirport = await airportService.GetAirportByName(choosenFlight.departureAirportName);
         const newOrder = new Order();
-        newOrder.FlightId = choosenFlight.flightId;
-        newOrder.OrderDate = new Date();
-        newOrder.UserId = userId;
-        newOrder.DepartureAirportId = departureAirport.airportId;
-        newOrder.DepartureAirportName = departureAirport.name;
-        newOrder.ArrivalAirportName = choosenFlight.arrivalAirportName;
+        newOrder.flightId = choosenFlight.flightId;
+        newOrder.orderDate = new Date();
+        newOrder.userId = userId;
+        newOrder.departureAirportId = departureAirport.airportId;
+        newOrder.departureAirportName = departureAirport.name;
+        newOrder.arrivalAirportName = choosenFlight.arrivalAirportName;
 
         await ordersService.CreateOrder(newOrder);
+    }
+
+    function formatDate(date) {
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let secondes = date.getSeconds();
+        let strTime = hours + ':' + minutes + ':' + secondes;
+        return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + '  ' + strTime;
     }
 
     onMount(async () => {
@@ -165,8 +174,10 @@
             <input name="firstName" type="text" bind:value={formNewUser.FirstName} />
             <label for="lastName">Last Name</label>
             <input name="lastName" type="text" bind:value={formNewUser.LastName} />
+            <label for="luggages">Luggages</label>
+            <input name="luggages" type="number" />
 
-            <button on:click={() => bookFlight()}> Confirm </button>
+            <button on:click={(e) => bookFlight(e)}> Book ! </button>
         </form>
     </div>
 </main>
