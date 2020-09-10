@@ -22,30 +22,27 @@ namespace CodeCake
             try
             {
 
-            Cake.Log.Verbosity = Verbosity.Diagnostic;
-            SimpleRepositoryInfo gitInfo = Cake.GetSimpleRepositoryInfo();
-            StandardGlobalInfo globalInfo = CreateStandardGlobalInfo( gitInfo )
-                                                .AddDotnet()
-                                                .SetCIBuildTag();
-            globalInfo.GetDotnetSolution().Clean();
-            Cake.CleanDirectories( globalInfo.ReleasesFolder );
-            globalInfo.GetDotnetSolution().Build();
+                Cake.Log.Verbosity = Verbosity.Diagnostic;
+                StandardGlobalInfo globalInfo = new StandardGlobalInfo( Cake )
+                                                    .AddDotnet();
+                globalInfo.GetDotnetSolution().Clean();
+                globalInfo.GetDotnetSolution().Build();
 
-            globalInfo.GetDotnetSolution().Test();
-            Cake.DotNetCorePublish( "MarketFlight" );
-            string SourcePath = @"MarketFlight/bin/Debug/netcoreapp3.1/publish/";
-            string release = "release/";
-            //Now Create all of the directories
-            foreach( string dirPath in Directory.GetDirectories( SourcePath, "*",
-                SearchOption.AllDirectories ) )
-                Directory.CreateDirectory( dirPath.Replace( SourcePath, release ) );
+                globalInfo.GetDotnetSolution().Test();
+                Cake.DotNetCorePublish( "MarketFlight" );
+                string SourcePath = @"MarketFlight/bin/Debug/netcoreapp3.1/publish/";
+                string release = "release/";
+                //Now Create all of the directories
+                foreach( string dirPath in Directory.GetDirectories( SourcePath, "*",
+                    SearchOption.AllDirectories ) )
+                    Directory.CreateDirectory( dirPath.Replace( SourcePath, release ) );
 
-            //Copy all the files & Replaces any files with the same name
-            foreach( string newPath in Directory.GetFiles( SourcePath, "*.*",
-                SearchOption.AllDirectories ) )
-                File.Copy( newPath, newPath.Replace( SourcePath, release ), true );
+                //Copy all the files & Replaces any files with the same name
+                foreach( string newPath in Directory.GetFiles( SourcePath, "*.*",
+                    SearchOption.AllDirectories ) )
+                    File.Copy( newPath, newPath.Replace( SourcePath, release ), true );
             }
-            catch(Exception e)
+            catch( Exception e )
             {
                 Console.WriteLine( e );
                 throw e;
