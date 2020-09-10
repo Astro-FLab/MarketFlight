@@ -38,7 +38,7 @@
     async function bookFlight(event) {
         event.preventDefault();
         const userId = await userService.CreateUserIfNotExist(formNewUser);
-        currentUserService.currentUserId = 1;
+        currentUserService.currentUserId = userId;
         const departureAirport = await airportService.GetAirportByName(choosenFlight.departureAirportName);
         const newOrder = new Order();
         newOrder.flightId = choosenFlight.flightId;
