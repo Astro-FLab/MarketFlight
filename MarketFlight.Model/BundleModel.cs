@@ -7,6 +7,7 @@ namespace MarketFlight.Model
     public class BundleModel
     {
         public int BundleId { get; set; }
+        public int Price { get; set; }
         public IEnumerable<FlightModel> Flights { get; set; }
     }
 }
