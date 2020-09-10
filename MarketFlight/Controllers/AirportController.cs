@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CK.Core;
 using MarketFlight.Data;
+using MarketFlight.DTO;
 using MarketFlight.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -32,13 +33,14 @@ namespace MarketFlight.Controllers
         }
 
         [HttpPost]
-        public Task<int> CreateAsync( string name )
-            => AirportTable.CreateAirport( _dbConnection, name );
+        public Task<int> CreateAsync( [FromBody] AirportDTO airport)
+            => AirportTable.CreateAirport( _dbConnection, airport.Name );
 
         [HttpGet( "byName/{name}" )]
         public Task<IEnumerable<AirportModel>> FindByName( string name ) => AirportTable.FindAirportByName( _dbConnection, name );
 
         [HttpGet( "getAllAirports" )]
-        public Task<IEnumerable<AirportModel>> GetAllAirport() => AirportTable.GetAllAirport( _dbConnection  );
+        public Task<IEnumerable<AirportModel>> GetAllAirport() => AirportTable.GetAllAirport( _dbConnection );
     }
+
 }

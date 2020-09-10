@@ -33,21 +33,30 @@
         choosenFlight = flight;
     }
 
-    async function bookFlight() {
+    async function bookFlight(event) {
+        event.preventDefault();
         console.log(choosenFlight);
         console.log(formNewUser);
 
-        const userId = await userService.CreateUserIfNotExist(formNewUser);
+        const userId = 1; //await userService.CreateUserIfNotExist(formNewUser);
         const departureAirport = await airportService.GetAirportByName(choosenFlight.departureAirportName);
         const newOrder = new Order();
-        newOrder.FlightId = choosenFlight.flightId;
-        newOrder.OrderDate = new Date();
-        newOrder.UserId = userId;
-        newOrder.DepartureAirportId = departureAirport.airportId;
-        newOrder.DepartureAirportName = departureAirport.name;
-        newOrder.ArrivalAirportName = choosenFlight.arrivalAirportName;
+        newOrder.flightId = choosenFlight.flightId;
+        newOrder.orderDate = new Date();
+        newOrder.userId = userId;
+        newOrder.departureAirportId = departureAirport.airportId;
+        newOrder.departureAirportName = departureAirport.name;
+        newOrder.arrivalAirportName = choosenFlight.arrivalAirportName;
 
         await ordersService.CreateOrder(newOrder);
+    }
+
+    function formatDate(date) {
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let secondes = date.getSeconds();
+        let strTime = hours + ':' + minutes + ':' + secondes;
+        return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + '  ' + strTime;
     }
 
     onMount(async () => {
@@ -168,7 +177,7 @@
             <label for="lastName">Last Name</label>
             <input name="lastName" type="text" bind:value={formNewUser.LastName} />
 
-            <button on:click={() => bookFlight()}> Book ! </button>
+            <button on:click={(e) => bookFlight(e)}> Book ! </button>
         </form>
     </div>
 </main>

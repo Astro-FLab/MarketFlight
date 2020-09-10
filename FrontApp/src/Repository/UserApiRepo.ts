@@ -17,7 +17,7 @@ export default class UserApiRepo {
     }
 
     async CreateUserIfNotExist(model: Partial<User>): Promise<number> {
-        return await helper.postInQueryAsync(`${endpoint}/createUserIfNotExist`, "firstName=" + model.FirstName + "lastName=" + model.LastName);
+        return await helper.postInQueryAsync(`${endpoint}/createUserIfNotExist`, "firstName=" + model.FirstName + "&lastName=" + model.LastName);
     }
 
     async GetAllUsers(): Promise<User[]> {

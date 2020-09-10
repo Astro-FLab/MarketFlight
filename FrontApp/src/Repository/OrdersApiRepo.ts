@@ -21,7 +21,7 @@ export default class OrdersApiRepo {
     }
 
     async CreateOrder(model: Order): Promise<Order> {
-        return await helper.postAsync(`${endpoint}`, model).then(jsonData => EntityBuilder.buildOne<Order>(Order, jsonData));
+        return await helper.postAsync(`${endpoint}`, { UserId: model.userId, FlightId: model.flightId, OrderDate: model.orderDate, SeatCount: model.seatCount }).then(jsonData => EntityBuilder.buildOne<Order>(Order, jsonData));
     }
 
     async UpdateOrder(orderId: number, model: Order) {

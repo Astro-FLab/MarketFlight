@@ -16,7 +16,7 @@ export default class AirportsApiRepo {
     }
 
     async CreateAirport(model: Airport) {
-        return await helper.postInQueryAsync(`${endpoint}`, "name=" + model.name).then(jsonData => EntityBuilder.buildOne<Airport>(Airport, jsonData));
+        return await helper.postAsync(`${endpoint}`, { Name: model.name }).then(jsonData => EntityBuilder.buildOne<Airport>(Airport, jsonData));
     }
 
     async GetAirportById(airportId: number) {
@@ -24,7 +24,7 @@ export default class AirportsApiRepo {
     }
 
     async GetAirportByName(airportName: string): Promise<Airport> {
-        return await helper.getAsync(`${endpoint}/${airportName}/byName`).then(jsonData => EntityBuilder.buildOne<Airport>(Airport, jsonData));
+        return await helper.getAsync(`${endpoint}/byName/${airportName}`).then(jsonData => EntityBuilder.buildOne<Airport>(Airport, jsonData));
     }
 
     async UpdateAirport(airportId: number, model: Airport) {
