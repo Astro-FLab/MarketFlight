@@ -24,7 +24,6 @@ namespace MarketFlight
         public void ConfigureServices( IServiceCollection services )
         {
             services.AddControllers();
-            Migration.DbSetup( _dbConnectionString );
             // Inject IDbConnection, with implementation from SqlConnection class.
             services.AddTransient<IDbConnection>( ( sp ) => new SqlConnection( _dbConnectionString ) );
         }
@@ -32,16 +31,18 @@ namespace MarketFlight
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure( IApplicationBuilder app, IWebHostEnvironment env )
         {
-            if( env.IsDevelopment() )
-            {
-                app.UseDeveloperExceptionPage();
-            }
             _dbConnectionString = Configuration.GetConnectionString( "dbConnection" );
             if( env.IsProduction() )
             {
                 _dbConnectionString = Environment.GetEnvironmentVariable( "dbConnection" )!;
             }
-            Console.WriteLine( "connection string:"+ _dbConnectionString );
+            Console.WriteLine( "connection string:" + _dbConnectionString );
+            Migration.DbSetup( _dbConnectionString );
+            if( env.IsDevelopment() )
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            
             app.UseRouting();
             app.UseCors( a =>
                 a.WithOrigins( "http://localhost:5000" )
