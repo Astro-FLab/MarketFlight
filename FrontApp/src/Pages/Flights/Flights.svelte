@@ -165,6 +165,8 @@
             <input name="firstName" type="text" bind:value={formNewUser.FirstName} />
             <label for="lastName">Last Name</label>
             <input name="lastName" type="text" bind:value={formNewUser.LastName} />
+            <label for="luggages">Luggages</label>
+            <input name="luggages" type="number" />
 
             <button on:click={() => bookFlight()}> Confirm </button>
         </form>
