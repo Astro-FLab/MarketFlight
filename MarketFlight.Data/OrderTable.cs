@@ -11,6 +11,11 @@ namespace MarketFlight.Data
 {
     public static class OrderTable
     {
+        // GET - Get all orders
+        public static Task<IEnumerable<OrderModel>> GetAllOrders( IDbConnection dbConnection ) =>
+            dbConnection.QueryAsync<OrderModel>( "select * from MF.vOrder" );
+
+        // POST - Create an order (from: userId(int), flight(int), orderDate(DateTime), seatCount(int))) 
         public static async Task<int> CreateOrder( IDbConnection dbConnection, int userId, int flightId, DateTime orderDate, int seatCount )
         {
             DynamicParameters parameters = new DynamicParameters();
@@ -23,9 +28,10 @@ namespace MarketFlight.Data
             return parameters.Get<int>( "@OrderId" );
         }
 
-        public static Task<IEnumerable<OrderModel>> GetAllOrders( IDbConnection dbConnection ) =>
-            dbConnection.QueryAsync<OrderModel>( "select * from MF.vOrder" );
+        // GET - Get an order (from: orderId(int))
         public static async Task<OrderModel?> GetOrderById( IDbConnection dbConnection, int orderId ) =>
             (await dbConnection.QueryAsync<OrderModel>( "select * from MF.vOrder where OrderId = @OrderId", new { OrderId = orderId } )).SingleOrDefault();
+        
+        
     }
 }
