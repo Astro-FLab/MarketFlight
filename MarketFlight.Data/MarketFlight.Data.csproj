@@ -6,7 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Res\Model\MarketFlight.Data.Install.1.0.0.sql" />
+    <None Remove="Res\Model\MarketFlight.Data.Settle.1.0.0.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Res\Model\MarketFlight.Data.Install.1.0.0.sql" />
+    <EmbeddedResource Include="Res\Model\MarketFlight.Data.Settle.1.0.0.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="dbup-sqlserver" Version="4.4.0" />
   </ItemGroup>
 
   <ItemGroup>
