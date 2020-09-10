@@ -29,11 +29,8 @@ namespace MarketFlight.Controllers
             return res == null ? NotFound() : (IActionResult)Ok( res );
         }
 
-        [HttpGet("{userId}/orders")]
-        public Task<IEnumerable<OrderModel>> GetUserOrder(int userId)
-        {
-           return UserTable.GetUserOrders( _dbConnection, userId );
-        }
+        [HttpGet( "{userId}/orders" )]
+        public Task<IEnumerable<OrderModel>> GetUserOrder( int userId ) => UserTable.GetUserOrders( _dbConnection, userId );
 
         [HttpGet]
         public Task<IEnumerable<UserModel>> GetAllAsync() => UserTable.GetAllUsers( _dbConnection );

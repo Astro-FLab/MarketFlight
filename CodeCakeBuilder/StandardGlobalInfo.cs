@@ -23,7 +23,6 @@ namespace CodeCake
     public class StandardGlobalInfo
     {
         readonly ICakeContext _ctx;
-        readonly SimpleRepositoryInfo _gitInfo;
         readonly HashSet<ICIWorkflow> _solutions = new HashSet<ICIWorkflow>();
         List<ArtifactPush> _artifactPushes;
         bool _ignoreNoArtifactsToProduce;
@@ -32,15 +31,9 @@ namespace CodeCake
         {
             SharedHttpClient = new HttpClient();
         }
-        public StandardGlobalInfo( ICakeContext ctx, SimpleRepositoryInfo gitInfo )
+        public StandardGlobalInfo( ICakeContext ctx )
         {
             _ctx = ctx;
-            _gitInfo = gitInfo;
-            // We build in Debug for any prerelease except "rc": the last prerelease step is in Release.
-            IsRelease = gitInfo.IsValidRelease
-                           && (gitInfo.PreReleaseName.Length == 0 || gitInfo.PreReleaseName == "rc");
-            ReleasesFolder = "CodeCakeBuilder/Releases";
-            Directory.CreateDirectory( ReleasesFolder );
         }
 
         public void RegisterSolution( ICIWorkflow solution )
@@ -52,11 +45,6 @@ namespace CodeCake
         /// Gets the Cake context.
         /// </summary>
         public ICakeContext Cake => _ctx;
-
-        /// <summary>
-        /// Gets the SimpleRepositoryInfo.
-        /// </summary>
-        public SimpleRepositoryInfo GitInfo => _gitInfo;
 
         IEnumerable<ICIPublishWorkflow> SolutionProducingArtifacts => Solutions.OfType<ICIPublishWorkflow>();
 
@@ -81,11 +69,6 @@ namespace CodeCake
         /// Gets the "Release" or "Debug" based on <see cref="IsRelease"/>.
         /// </summary>
         public string BuildConfiguration => IsRelease ? "Release" : "Debug";
-
-        /// <summary>
-        /// Gets the version of the packages: this is the <see cref="RepositoryInfo.FinalVersion"/>.
-        /// </summary>
-        public SVersion Version => _gitInfo.Info.FinalVersion;
 
         /// <summary>
         /// Gets whether this is a purely local build.
@@ -164,37 +147,6 @@ namespace CodeCake
 
         public IReadOnlyCollection<ICIWorkflow> Solutions => _solutions;
 
-        #region Memory key support.
-
-        string MemoryFilePath => $"CodeCakeBuilder/MemoryKey.{GitInfo.CommitSha}.txt";
-
-        public void WriteCommitMemoryKey( NormalizedPath key )
-        {
-            if( GitInfo.IsValid ) File.AppendAllLines( MemoryFilePath, new[] { key.ToString() } );
-        }
-
-        public bool CheckCommitMemoryKey( NormalizedPath key )
-        {
-            bool done = File.Exists( MemoryFilePath )
-                        ? Array.IndexOf( File.ReadAllLines( MemoryFilePath ), key.Path ) >= 0
-                        : false;
-            if( done )
-            {
-                if( !GitInfo.IsValid )
-                {
-                    Cake.Information( $"Dirty commit. Key exists but is ignored: {key}" );
-                    done = false;
-                }
-                else
-                {
-                    Cake.Information( $"Key exists on this commit: {key}" );
-                }
-            }
-            return done;
-        }
-
-        #endregion
-
         /// <summary>
         /// Simply calls <see cref="ArtifactType.PushAsync(IEnumerable{ArtifactPush})"/> on each <see cref="ArtifactTypes"/>
         /// with their correct typed artifacts.
@@ -205,58 +157,5 @@ namespace CodeCake
             Task[] tasks = ArtifactTypes.Select( t => t.PushAsync( pushes.Where( a => a.Feed.ArtifactType == t ) ) ).ToArray();
             Task.WaitAll( tasks );
         }
-
-        /// <summary>
-        /// Tags the build when running on Appveyor or AzureDevOps (GitLab does not support this).
-        /// Note that if <see cref="ShouldStop"/> is true, " (Skipped)" is appended.
-        /// </summary>
-        /// <returns>This info object (allowing fluent syntax).</returns>
-        public StandardGlobalInfo SetCIBuildTag()
-        {
-            string AddSkipped( string s ) => ShouldStop ? s + " (Skipped)" : s;
-
-            string ComputeAzurePipelineUpdateBuildVersion( SimpleRepositoryInfo gitInfo )
-            {
-                // Azure (formerly VSTS, formerly VSO) analyzes the stdout to set its build number.
-                // On clash, the default Azure/VSTS/VSO build number is used: to ensure that the actual
-                // version will be always be available we need to inject a uniquifier.
-                string buildVersion = AddSkipped( $"{gitInfo.SafeVersion}_{DateTime.UtcNow:yyyyMMdd-HHmmss}" );
-                Cake.Information( $"Using VSTS build number: {buildVersion}" );
-                return $"##vso[build.updatebuildnumber]{buildVersion}";
-            }
-
-            void AzurePipelineUpdateBuildVersion( string buildInstruction )
-            {
-                Console.WriteLine();
-                Console.WriteLine( buildInstruction );
-                Console.WriteLine();
-            }
-
-            IAppVeyorProvider appVeyor = Cake.AppVeyor();
-            ITFBuildProvider vsts = Cake.TFBuild();
-            try
-            {
-                string azureVersion = ComputeAzurePipelineUpdateBuildVersion( _gitInfo );
-                string appveyorVersion = AddSkipped( _gitInfo.SafeVersion );
-                if( appVeyor.IsRunningOnAppVeyor ) //Warning: 
-                {
-                    appVeyor.UpdateBuildVersion( appveyorVersion );
-                }
-
-                if( vsts.IsRunningOnAzurePipelinesHosted || vsts.IsRunningOnAzurePipelines )
-                {
-                    AzurePipelineUpdateBuildVersion( azureVersion );
-                }
-            }
-            catch( Exception e )
-            {
-                Cake.Warning( "Could not set the Build Version !!!" );
-                Cake.Warning( e );
-            }
-
-            return this;
-        }
-
     }
-
 }
