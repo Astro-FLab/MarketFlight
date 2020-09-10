@@ -19,19 +19,14 @@ namespace MarketFlight
 
         public IConfiguration Configuration { get; }
 
+        string _dbConnectionString;
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices( IServiceCollection services, IWebHostEnvironment env )
+        public void ConfigureServices( IServiceCollection services )
         {
             services.AddControllers();
-            string dbConnectionString = Configuration.GetConnectionString( "dbConnection" );
-            if( env.IsProduction() )
-            {
-                dbConnectionString = Environment.GetEnvironmentVariable( "dbConnection" )!;
-            }
-            Console.WriteLine( "connection string:"+dbConnectionString );
-            Migration.DbSetup( dbConnectionString );
+            Migration.DbSetup( _dbConnectionString );
             // Inject IDbConnection, with implementation from SqlConnection class.
-            services.AddTransient<IDbConnection>( ( sp ) => new SqlConnection( dbConnectionString ) );
+            services.AddTransient<IDbConnection>( ( sp ) => new SqlConnection( _dbConnectionString ) );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,7 +36,12 @@ namespace MarketFlight
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            _dbConnectionString = Configuration.GetConnectionString( "dbConnection" );
+            if( env.IsProduction() )
+            {
+                _dbConnectionString = Environment.GetEnvironmentVariable( "dbConnection" )!;
+            }
+            Console.WriteLine( "connection string:"+ _dbConnectionString );
             app.UseRouting();
             app.UseCors( a =>
                 a.WithOrigins( "http://localhost:5000" )
@@ -50,7 +50,6 @@ namespace MarketFlight
                 .AllowAnyHeader()
                 .AllowCredentials()
              );
-
             app.UseEndpoints( endpoints =>
              {
                  endpoints.MapControllers();
