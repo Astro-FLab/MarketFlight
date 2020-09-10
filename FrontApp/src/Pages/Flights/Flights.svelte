@@ -12,6 +12,7 @@
     import FlightApiRepo from '../../Repository/FlightApiRepo';
     import { Order } from '../../Models';
     import { onMount } from 'svelte';
+    import { CurrentUserService } from '../../Helpers/CurrentUserService';
 
     export let choosenFlightMode: FlightMode = 'oneWay';
     export let flights: Flight[] = [];
@@ -23,6 +24,7 @@
     export let ordersService = new OrdersApiRepo();
     export let airportService = new AirportsApiRepo();
     export let flightService = new FlightApiRepo();
+    export let currentUserService: CurrentUserService;
 
     function chooseFlightMode(mode: FlightMode) {
         choosenFlightMode = mode;
@@ -34,10 +36,8 @@
     }
 
     async function bookFlight() {
-        console.log(choosenFlight);
-        console.log(formNewUser);
-
         const userId = await userService.CreateUserIfNotExist(formNewUser);
+        currentUserService.currentUserId = 1;
         const departureAirport = await airportService.GetAirportByName(choosenFlight.departureAirportName);
         const newOrder = new Order();
         newOrder.FlightId = choosenFlight.flightId;
@@ -51,10 +51,8 @@
     }
 
     onMount(async () => {
+        currentUserService = CurrentUserService.getInstance();
         flights = await flightService.GetAllFlights();
-        console.log(flights);
-        // WIP Récupérer le User depuis l'api
-        // WIP Récupérer les flights du User depuis l'api
     });
 </script>
 
