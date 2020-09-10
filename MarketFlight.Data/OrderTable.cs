@@ -33,9 +33,9 @@ namespace MarketFlight.Data
             => (await dbConnection.QueryAsync<OrderModel>( "select * from MF.vOrder where OrderId = @OrderId", new { OrderId = orderId } )).SingleOrDefault();
 
         // PUT - Update an order
-        public static Task<int> UpdateAnOrder( IDbConnection dbConnection, int userId, int flightId, DateTime orderDate, int seatCount )
-            => dbConnection.QueryAsync<int>( "update MF.vOrder SET SeatCount = @seatCount, OrderDate = @orderDate where UserId = @userId and FlightId = @flightId",
-                new { UserId = userId, FlightId = flightId, OrderDate = orderDate, SeatCount = seatCount } );
+        //public static Task<int> UpdateAnOrder( IDbConnection dbConnection, int userId, int flightId, DateTime orderDate, int seatCount )
+        //    => dbConnection.QueryAsync<int>( "update MF.vOrder SET SeatCount = @seatCount, OrderDate = @orderDate where UserId = @userId and FlightId = @flightId",
+        //        new { UserId = userId, FlightId = flightId, OrderDate = orderDate, SeatCount = seatCount } );
 
         /// <summary>
         /// DELETE - Delete an order (from: orderID(int))
@@ -43,7 +43,7 @@ namespace MarketFlight.Data
         /// <param name="dbConnection"></param>
         /// <param name="orderID"></param>
         /// <returns></returns>
-        public static async Task<bool> DeleteOrder( IDbConnection dbConnection, int orderID )
-            => dbConnection.ExecuteAsync<bool>( "delete from MF.vOrder where OrderId = @orderId", new { OrderID = orderID } );
+        //public static async Task<bool> DeleteOrder( IDbConnection dbConnection, int orderID )
+        //    => dbConnection.ExecuteAsync<bool>( "delete from MF.vOrder where OrderId = @orderId", new { OrderID = orderID } );
     }
 }

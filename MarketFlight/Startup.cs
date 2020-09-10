@@ -1,5 +1,6 @@
 using System.Data;
 using System.Data.SqlClient;
+using MarketFlight.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +23,7 @@ namespace MarketFlight
         {
             services.AddControllers();
             string dbConnectionString = Configuration.GetConnectionString( "dbConnection" );
-
+            Migration.DbSetup( dbConnectionString );
             // Inject IDbConnection, with implementation from SqlConnection class.
             services.AddTransient<IDbConnection>( ( sp ) => new SqlConnection( dbConnectionString ) );
         }
