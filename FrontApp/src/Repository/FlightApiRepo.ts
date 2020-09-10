@@ -13,13 +13,13 @@ export default class FlightApiRepo {
     }
 
 
-    async GetAllFlights() : Promise<Flight[]> {
+    async GetAllFlights(): Promise<Flight[]> {
         let res = await helper.getAsync(`${endpoint}`);
         return EntityBuilder.buildMany<Flight>(Flight, res);
     }
 
-    async CreateFlight(model) {
-        return await helper.postAsync(`${endpoint}`, model).then(jsonData => EntityBuilder.buildOne<Flight>(Flight, jsonData));
+    async CreateFlight(model: Flight) {
+        return await helper.postAsync(`${endpoint}`, { DepartureAirportId: model.departureAirportId, ArrivalAirportId: model.arrivalAirportId, TotalSeatCount: 50 }).then(jsonData => EntityBuilder.buildOne<Flight>(Flight, jsonData));
     }
 
     async GetFlight(flightId) {

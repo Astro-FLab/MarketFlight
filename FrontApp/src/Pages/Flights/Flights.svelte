@@ -51,14 +51,6 @@
         await ordersService.CreateOrder(newOrder);
     }
 
-    function formatDate(date) {
-        let hours = date.getHours();
-        let minutes = date.getMinutes();
-        let secondes = date.getSeconds();
-        let strTime = hours + ':' + minutes + ':' + secondes;
-        return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + '  ' + strTime;
-    }
-
     onMount(async () => {
         currentUserService = CurrentUserService.getInstance();
         flights = await flightService.GetAllFlights();
