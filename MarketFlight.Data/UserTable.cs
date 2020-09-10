@@ -29,9 +29,9 @@ namespace MarketFlight.Data
 
         ////IN COMING// PUT - Update a user (from: UserId(int), firstName(string), lastName(string))        
         public static Task<int> UpdateUserById (IDbConnection dbConnection,int userId, string firstName, string lastName)
-        //    => dbConnection.QuerySingleAsync<int>(
-        //        "update Mf.tUser SET FirstName = @firstName, LastName = @lastName where UserId = @userId",
-        //        new {UserID = userId, FirstName = firstName, LastName = lastName });
+            => dbConnection.QuerySingleAsync<int>(
+                "update Mf.tUser SET FirstName = @firstName, LastName = @lastName where UserId = @userId",
+                new { UserID = userId, FirstName = firstName, LastName = lastName } );
 
         // GET - Get all orders for a user (from: UserID(int))
         public static Task<IEnumerable<OrderModel>> GetUserOrders( IDbConnection dbConnection, int userId )
