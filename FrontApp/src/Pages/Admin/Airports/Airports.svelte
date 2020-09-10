@@ -1,8 +1,8 @@
 <script lang="ts">
     // Imports
     import { Button } from 'sveltestrap';
-    import AirportsApiRepo from '../../Repository/AirportsApiRepo';
-    import { Airport } from '../../Models';
+    import AirportsApiRepo from '../../../Repository/AirportsApiRepo';
+    import { Airport } from '../../../Models';
     import { onMount } from 'svelte';
 
     export let airports: Airport[] = [];

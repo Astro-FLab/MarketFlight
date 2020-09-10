@@ -8,11 +8,12 @@
         faPlane,
         faPlaneArrival,
         faPlaneDeparture,
-        faRoute,
+        faTools,
     } from '@fortawesome/free-solid-svg-icons';
     import HomePage from './Pages/HomePage/HomePage.svelte';
     import MyOrders from './Pages/MyOrders/MyOrders.svelte';
-    import Airports from './Pages/Airports/Airports.svelte';
+    import AirportsAdm from './Pages/Admin/Airports/Airports.svelte';
+    import FlightsAdm from './Pages/Admin/Flights/Flights.svelte';
 
     export let name: string;
     export let url = '';
@@ -64,14 +65,18 @@
                 <Link class="nav-item" to="/flights">Flights</Link>
             </li>
             <li class="nav-item d-flex flex-center">
-                <Icon data={faRoute} class="mr-2" />
-                <Link class="nav-item" to="/airports">Airports</Link>
+                <Icon data={faPlane} class="mr-2" />
+                <Link class="nav-item" to="/my-orders">Orders</Link>
             </li>
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item mr-6">
-                <Icon data={faPlane} class="mr-2" />
-                <Link class="nav-item" to="/my-orders">My Orders</Link>
+                <Icon data={faTools} class="mr-2" />
+                <Link class="nav-item" to="/airportsAdm">Airports</Link>
+            </li>
+            <li class="nav-item mr-6">
+                <Icon data={faTools} class="mr-2" />
+                <Link class="nav-item" to="/flightsAdm">Flights</Link>
             </li>
         </ul>
         <ul class="navbar-nav">
@@ -86,7 +91,8 @@
 
     <!-- Routes -->
     <div>
-        <Route path="airports" component={Airports} />
+        <Route path="airportsAdm" component={AirportsAdm} />
+        <Route path="flightsAdm" component={FlightsAdm} />
         <Route path="flights" component={Flights} />
         <Route path="my-orders" component={MyOrders} />
         <Route path="/" component={HomePage} />

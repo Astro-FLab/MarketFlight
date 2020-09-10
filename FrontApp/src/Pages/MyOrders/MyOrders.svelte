@@ -48,7 +48,7 @@
 
     {#each currentUserFlights as flight}
         <ul>
-            <li>{flight.DepartureAirportName} - {flight.ArrivalAirportName}</li>
+            <li>{flight.departureAirportName} - {flight.arrivalAirportName}</li>
         </ul>
     {/each}
 </main>

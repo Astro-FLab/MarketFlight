@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CK.Core;
 using MarketFlight.Data;
+using MarketFlight.DTO;
 using MarketFlight.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -37,7 +38,7 @@ namespace MarketFlight.Controllers
         public Task<bool> DeleteById( int flightId ) => FlightTable.DeleteFlightById( _dbConnection, flightId );
 
         [HttpPost]
-        public Task<int> CreateAsync( int departureAirportId, int arrivalAirportId, int totalSeatCount )
-            => FlightTable.CreateFlight( _dbConnection, departureAirportId, arrivalAirportId, totalSeatCount );
+        public Task<int> CreateAsync( [FromBody] FlightDTO flight )
+            => FlightTable.CreateFlight( _dbConnection, flight.DepartureAirportId, flight.ArrivalAirportId, flight.TotalSeatCount );
     }
 }
