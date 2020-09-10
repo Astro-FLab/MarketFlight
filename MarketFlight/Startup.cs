@@ -28,6 +28,7 @@ namespace MarketFlight
             {
                 dbConnectionString = Environment.GetEnvironmentVariable( "dbConnection" )!;
             }
+            Console.WriteLine( "connection string:"+dbConnectionString );
             Migration.DbSetup( dbConnectionString );
             // Inject IDbConnection, with implementation from SqlConnection class.
             services.AddTransient<IDbConnection>( ( sp ) => new SqlConnection( dbConnectionString ) );
