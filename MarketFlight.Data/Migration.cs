@@ -18,6 +18,7 @@ namespace MarketFlight.Data
 
             if( !result.Successful )
             {
+                // error
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine( result.Error );
                 Console.ResetColor();

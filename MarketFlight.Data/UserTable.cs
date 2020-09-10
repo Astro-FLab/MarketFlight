@@ -36,6 +36,6 @@ namespace MarketFlight.Data
         // GET - Get all orders for a user (from: UserID(int))
         public static Task<IEnumerable<OrderModel>> GetUserOrders( IDbConnection dbConnection, int userId )
             => dbConnection.QueryAsync<OrderModel>(
-                "select * from MF.vOrder where to.UserId = @UserId", new { UserId = userId } );
+                "select * from MF.vOrder where UserId = @UserId", new { UserId = userId } );
     }
 }
