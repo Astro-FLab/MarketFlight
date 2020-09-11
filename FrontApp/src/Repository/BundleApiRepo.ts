@@ -9,7 +9,7 @@ let helper: apiHelper;
 export default class BundleApiRepo {
     constructor() {
         helper = new apiHelper();
-        endpoint = `http://localhost:800/marketflight/bundles`;
+        endpoint = `http://marketflight.kuinox.io/marketflight/bundles`;
     }
 
     async GetAll(): Promise<Bundle[]> {
