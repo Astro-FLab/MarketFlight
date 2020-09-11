@@ -52,7 +52,7 @@ namespace MarketFlight.Controllers
             else return bundle;
         }
 
-        [HttpGet( "Bundles" )]
+        [HttpGet]
         public async Task<IEnumerable<BundleModel>> GetBundles()
         {
             IEnumerable<BundleModel> bundles = await BundleTable.GetAllBundle( _dbConnection ); 
