@@ -31,11 +31,11 @@ namespace MarketFlight
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure( IApplicationBuilder app, IWebHostEnvironment env )
         {
-            _dbConnectionString = Configuration.GetConnectionString( "dbConnection" );
-            if( env.IsProduction() )
-            {
-                _dbConnectionString = "Data Source=127.0.0.1,1433;Network Library=DBMSSOCN;Initial Catalog=MarketFlight;User ID=SA;Password=MarketFlight10;"// Environment.GetEnvironmentVariable( "dbConnection" )!;
-            }
+            // _dbConnectionString = Configuration.GetConnectionString( "dbConnection" );
+            // if( env.IsProduction() )
+            // {
+                _dbConnectionString = "Data Source=127.0.0.1,1433;Network Library=DBMSSOCN;Initial Catalog=MarketFlight;User ID=sa;Password=MarketFlight10;";// Environment.GetEnvironmentVariable( "dbConnection" )!;
+            // }
             
             Console.WriteLine( "connection string:" + _dbConnectionString );
             Migration.DbSetup( _dbConnectionString );

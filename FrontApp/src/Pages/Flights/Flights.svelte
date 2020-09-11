@@ -35,6 +35,16 @@
         choosenBundle = bundle;
     }
 
+    function computePrice(bundle: Bundle): string {
+        let price: number;
+        if (bundle.flights.length > 1) {
+            price = bundle.price - (10 / 100) * bundle.price;
+            return `${price} (-10%)`;
+        } else {
+            return price.toString();
+        }
+    }
+
     async function bookFlight(event: MouseEvent) {
         event.preventDefault();
         const userId = await userService.CreateUserIfNotExist(formNewUser);
@@ -159,7 +169,7 @@
                 <tr>
                     <td>{bundle.flights[0].departureAirportName}</td>
                     <td>{bundle.flights[bundle.flights.length - 1].arrivalAirportName}</td>
-                    <td><button on:click={() => chooseBundle(bundle)}> Book this flight ! </button></td>
+                    <td><button on:click={() => chooseBundle(bundle)}> {computePrice(bundle)} </button></td>
                 </tr>
             {/each}
         </table>
