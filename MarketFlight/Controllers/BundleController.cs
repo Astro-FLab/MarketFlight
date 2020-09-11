@@ -1,6 +1,11 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using MarketFlight.Data;
+using MarketFlight.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketFlight.Controllers
@@ -21,6 +26,41 @@ namespace MarketFlight.Controllers
         {
             var res = await BundleTable.GetBundleById( _dbConnection, bundleId );
             return res == null ? NotFound() : (IActionResult)Ok( res );
+        }
+
+        [HttpGet( "{bundleFlight}" )]
+        public async Task<BundleModel> GetBundleItems( int bundleId )
+        {
+            FlightModel flight;
+            BundleModel bundle = await BundleTable.GetBundleById( _dbConnection, bundleId );
+            var flights_id = await BundleTable.GetBundleFlights( _dbConnection, bundleId );
+
+            foreach( int flight_id in flights_id )
+            {
+                var k = await FlightTable.GetFlightById( _dbConnection, flight_id );
+                if( k is null )
+                {
+                    throw new Exception();
+                }
+                else flight = k;
+                bundle.Flights.Append( flight );
+            }
+            if( bundle is null )
+            {
+                throw new Exception();
+            }
+            else return bundle;
+        }
+
+        [HttpGet( "Bundles" )]
+        public async Task<IEnumerable<BundleModel>> GetBundles()
+        {
+            IEnumerable<BundleModel> bundles = await BundleTable.GetAllBundle( _dbConnection ); 
+            foreach(var bundle in bundles)
+            {
+                await GetBundleItems( bundle.BundleId );
+            }
+            return bundles;
         }
 
         [HttpPost]

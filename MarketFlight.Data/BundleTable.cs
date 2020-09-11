@@ -13,10 +13,20 @@ namespace MarketFlight.Data
     public static class BundleTable
     {
         public static Task<int> CreateBundle( IDbConnection dbConnection, double money )
-         => dbConnection.QuerySingleAsync<int>( "insert into MF.tBundle (Price) output inserted.BundleId values(@Price)", new { Price = money } );
+            => dbConnection.QuerySingleAsync<int>( "insert into MF.tBundle (Price) output inserted.BundleId values(@Price)", new { Price = money } );
 
         public static Task AddBundleItem( IDbConnection dbConnection, int bundleId, int flightId )
             => dbConnection.ExecuteAsync( "insert into MF.tBundleItems (BundleId, FlightId) values(@BundleId, @FlightId)", new { BundleId = bundleId, FlightId = flightId } );
+
+        public static async Task<IEnumerable<int>> GetBundleFlights( IDbConnection dbConnection, int bundleId)
+        {
+            IEnumerable<int> bundle = await dbConnection.QueryAsync<int>( "select f.FlightId from MF.tBundleItems f where f.BundleId = @bundleId", new { BundleId = bundleId } );
+            return bundle;
+        }
+
+        // GET - Get all bundle
+        public static Task<IEnumerable<BundleModel>> GetAllBundle( IDbConnection dbConnection )
+            => dbConnection.QueryAsync<BundleModel>( @"select * from MF.tBundle" );
 
         public static async Task<BundleModel> GetBundleById( IDbConnection db, int bundleId )
         {
@@ -28,5 +38,6 @@ namespace MarketFlight.Data
             bundle.Flights = flights;
             return bundle;
         }
+
     }
 }
