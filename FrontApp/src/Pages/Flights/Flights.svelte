@@ -9,51 +9,66 @@
     import UserApiRepo from '../../Repository/UserApiRepo';
     import OrdersApiRepo from '../../Repository/OrdersApiRepo';
     import AirportsApiRepo from '../../Repository/AirportsApiRepo';
-    import FlightApiRepo from '../../Repository/FlightApiRepo';
-    import { Order } from '../../Models';
+    import { Bundle, Order } from '../../Models';
     import { onMount } from 'svelte';
     import { CurrentUserService } from '../../Helpers/CurrentUserService';
+    import BundleApiRepo from '../../Repository/BundleApiRepo';
 
     export let choosenFlightMode: FlightMode = 'oneWay';
-    export let flights: Flight[] = [];
+    export let bundles: Bundle[] = [];
     export let formVisible = false;
 
-    export let choosenFlight: Flight = new Flight();
+    export let choosenBundle: Bundle = new Bundle();
     export let formNewUser: User = new User();
     export let userService = new UserApiRepo();
     export let ordersService = new OrdersApiRepo();
     export let airportService = new AirportsApiRepo();
-    export let flightService = new FlightApiRepo();
+    export let bundleService = new BundleApiRepo();
     export let currentUserService: CurrentUserService;
 
     function chooseFlightMode(mode: FlightMode) {
         choosenFlightMode = mode;
     }
 
-    function chooseFlight(flight: Flight) {
+    function chooseBundle(bundle: Bundle) {
         formVisible = true;
-        choosenFlight = flight;
+        choosenBundle = bundle;
     }
 
-    async function bookFlight(event) {
+    function computePrice(bundle: Bundle): string {
+        let price: number;
+        if (bundle.flights.length > 1) {
+            price = bundle.price - (10 / 100) * bundle.price;
+            return `${price} (-10%)`;
+        } else {
+            return price.toString();
+        }
+    }
+
+    async function bookFlight(event: MouseEvent) {
         event.preventDefault();
         const userId = await userService.CreateUserIfNotExist(formNewUser);
         currentUserService.currentUserId = userId;
-        const departureAirport = await airportService.GetAirportByName(choosenFlight.departureAirportName);
-        const newOrder = new Order();
-        newOrder.flightId = choosenFlight.flightId;
-        newOrder.orderDate = new Date();
-        newOrder.userId = userId;
-        newOrder.departureAirportId = departureAirport.airportId;
-        newOrder.departureAirportName = departureAirport.name;
-        newOrder.arrivalAirportName = choosenFlight.arrivalAirportName;
 
-        await ordersService.CreateOrder(newOrder);
+        const departureAirport = await airportService.GetAirportByName(choosenBundle.flights[0].departureAirportName);
+
+        for (let i = 0; i < choosenBundle.flights.length; i++) {
+            const element = choosenBundle.flights[i];
+            const newOrder = new Order();
+            newOrder.flightId = element.flightId;
+            newOrder.orderDate = new Date();
+            newOrder.userId = userId;
+            newOrder.departureAirportId = departureAirport.airportId;
+            newOrder.departureAirportName = departureAirport.name;
+            newOrder.arrivalAirportName = element.arrivalAirportName;
+
+            await ordersService.CreateOrder(newOrder);
+        }
     }
 
     onMount(async () => {
         currentUserService = CurrentUserService.getInstance();
-        flights = await flightService.GetAllFlights();
+        bundles = await bundleService.GetAll();
     });
 </script>
 
@@ -150,11 +165,11 @@
                 <th>Arrival</th>
                 <th>Price (€)</th>
             </tr>
-            {#each flights as flight}
+            {#each bundles as bundle}
                 <tr>
-                    <td>{flight.departureAirportName}</td>
-                    <td>{flight.arrivalAirportName}</td>
-                    <td><button on:click={() => chooseFlight(flight)}> Book this flight ! </button></td>
+                    <td>{bundle.flights[0].departureAirportName}</td>
+                    <td>{bundle.flights[bundle.flights.length - 1].arrivalAirportName}</td>
+                    <td><button on:click={() => chooseBundle(bundle)}> {computePrice(bundle)} </button></td>
                 </tr>
             {/each}
         </table>
@@ -169,7 +184,7 @@
             <label for="luggages">Luggages</label>
             <input name="luggages" type="number" />
 
-            <button on:click={(e) => bookFlight(e)}> Book ! </button>
+            <button on:click={(e) => bookFlight(e)}> Confirm ! </button>
         </form>
     </div>
 </main>

@@ -1,21 +1,5 @@
-IF NOT EXISTS ( SELECT  *
-                FROM    sys.schemas
-                WHERE   name = 'MF' )
-    EXEC('CREATE SCHEMA [MF]');
-GO
-
-drop table if exists MF.tFlightToSell;
-drop table if exists MF.tBundleItems;
-drop table if exists MF.tOrder;
-drop table if exists MF.tBundle;
-drop table if exists MF.tFlight;
-drop table if exists MF.tAirport;
-drop table if exists MF.tUser;
-drop view if exists MF.vFlight;
-drop view if exists MF.vOrder;
-drop procedure if exists MF.pCreateOrder;
-drop type if exists IntList;
-
+EXEC('CREATE SCHEMA [MF]');
+go;
 create type IntList as table ( Number int );
 create table MF.tUser(
     UserId int not null identity(1,1) primary key,

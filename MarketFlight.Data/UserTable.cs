@@ -27,11 +27,11 @@ namespace MarketFlight.Data
                            "select UserId, FirstName, LastName from MF.tUser where UserId = @UserId",
                            new { UserId = userId } )).SingleOrDefault();
 
-        //IN COMING// PUT - Update a user (from: UserId(int), firstName(string), lastName(string))        
+        ////IN COMING// PUT - Update a user (from: UserId(int), firstName(string), lastName(string))        
         public static Task<int> UpdateUserById (IDbConnection dbConnection,int userId, string firstName, string lastName)
             => dbConnection.QuerySingleAsync<int>(
                 "update Mf.tUser SET FirstName = @firstName, LastName = @lastName where UserId = @userId",
-                new {UserID = userId, FirstName = firstName, LastName = lastName });
+                new { UserID = userId, FirstName = firstName, LastName = lastName } );
 
         // GET - Get all orders for a user (from: UserID(int))
         public static Task<IEnumerable<OrderModel>> GetUserOrders( IDbConnection dbConnection, int userId )

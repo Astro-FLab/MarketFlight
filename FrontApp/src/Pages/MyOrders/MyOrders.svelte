@@ -26,13 +26,6 @@
         margin: 0 auto;
     }
 
-    h1 {
-        color: orange;
-        text-transform: uppercase;
-        font-size: 4em;
-        font-weight: 100;
-    }
-
     @media (min-width: 640px) {
         main {
             max-width: none;
@@ -41,7 +34,7 @@
 </style>
 
 <main>
-    <h1>My Orders</h1>
+    <h1 class="my-4">My Orders</h1>
 
     <h3>{currentUser?.FirstName}</h3>
     <h3>{currentUser?.LastName}</h3>

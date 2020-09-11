@@ -75,7 +75,7 @@
 </style>
 
 <main>
-    <h1 class="my-4">FLights List</h1>
+    <h1 class="my-4">Flights List</h1>
 
     <div class="table-container mt-6 mb-6">
         <table>

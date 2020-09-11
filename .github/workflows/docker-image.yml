@@ -13,4 +13,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker-compose down && docker-compose up --force-recreate -d
+      run: docker-compose down && docker-compose build --no-cache api && docker-compose up -d
