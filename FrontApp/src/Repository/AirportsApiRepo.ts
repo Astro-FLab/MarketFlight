@@ -8,7 +8,7 @@ let helper: apiHelper;
 export default class AirportsApiRepo {
     constructor() {
         helper = new apiHelper();
-        endpoint = `http://localhost:800/marketflight/airports`;
+        endpoint = `http://marketflight.kuinox.io/marketflight/airports`;
     }
 
     async GetAllAirPorts() {

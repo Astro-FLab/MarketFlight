@@ -9,7 +9,7 @@ let helper: apiHelper;
 export default class UserApiRepo {
     constructor() {
         helper = new apiHelper();
-        endpoint = `http://localhost:800/marketflight/users`;
+        endpoint = `http://marketflight.kuinox.io/marketflight/users`;
     }
 
     async CreateUser(model: User): Promise<User> {

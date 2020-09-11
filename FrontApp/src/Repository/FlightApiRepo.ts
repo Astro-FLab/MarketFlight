@@ -9,7 +9,7 @@ let helper: apiHelper;
 export default class FlightApiRepo {
     constructor() {
         helper = new apiHelper();
-        endpoint = `http://localhost:800/marketflight/flights`;
+        endpoint = `http://marketflight.kuinox.io/marketflight/flights`;
     }
 
 

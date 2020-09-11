@@ -9,7 +9,7 @@ let helper: apiHelper;
 export default class OrdersApiRepo {
     constructor() {
         helper = new apiHelper();
-        endpoint = `http://localhost:800/marketflight/orders`;
+        endpoint = `http://marketflight.kuinox.io/marketflight/orders`;
     }
 
     async GetAllOrders() {
