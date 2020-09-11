@@ -12,6 +12,10 @@ export default class BundleApiRepo {
         endpoint = `http://localhost:800/marketflight/bundles`;
     }
 
+    async GetAll(): Promise<Bundle[]> {
+        return await helper.getAsync(`${endpoint}`).then(jsonData => EntityBuilder.buildManyAsync<Bundle>(Bundle, jsonData));
+    }
+
     async GetBundle(bundleId: number): Promise<Bundle> {
         return await helper.getAsync(`${endpoint}/${bundleId}`).then(jsonData => EntityBuilder.buildOne<Bundle>(Bundle, jsonData));
     }
