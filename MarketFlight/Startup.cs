@@ -34,8 +34,9 @@ namespace MarketFlight
             _dbConnectionString = Configuration.GetConnectionString( "dbConnection" );
             if( env.IsProduction() )
             {
-                _dbConnectionString = Environment.GetEnvironmentVariable( "dbConnection" )!;
+                _dbConnectionString = "Data Source=127.0.0.1,1433;Network Library=DBMSSOCN;Initial Catalog=MarketFlight;User ID=SA;Password=MarketFlight10;";// Environment.GetEnvironmentVariable( "dbConnection" )!;
             }
+            
             Console.WriteLine( "connection string:" + _dbConnectionString );
             Migration.DbSetup( _dbConnectionString );
             if( env.IsDevelopment() )
